@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract object for the extraction of information from .csv files
+ * 
+ * @author Jason Nagy, 400055130
+ * @since March 04/18
+ * @version 1.0
+ */
 public class FileInterpreter {
 	
 	/* EXAMPLE USE
@@ -17,20 +24,38 @@ public class FileInterpreter {
 		- Then put data into Charity list
 	*/
 	
+	public static void main(String[] args) throws IOException {
+		FileInterpreter.listHeaders("data/Charity_Compensation.csv");
+	}
+	
+	/**
+	 * Method to return extract desired columns from a specified .csv file with the intended use of inserting the data into Charity ADTs
+	 * 
+	 * @param file - the file to extract from
+	 * @param toExtrace - the column headers to extrace data from
+	 * @return String[][] with the first index being the charity number and the second being the data point corresponding to the chosen header sharing that index
+	 * @throws IOException - when the specified file is not found
+	 */
 	public static String[][] getDataFromFile(String file, String[] toExtract) throws IOException{
 		String[][] raw = readFile(file);
 		String[][] data = extractElements(raw, getHeaders(file), toExtract);
 		return(data);
 	}
 	
+	/**
+	 * Open and copy all data from a specific file
+	 * 
+	 * @param s - the file to read from
+	 * @throws IOException - when the specified file is not found
+	 */
 	private static String[][] readFile(String s) throws IOException{
 		
 		List<String[]> list = new ArrayList<String[]>(); // will store the raw data outputted from the .csv file
+		BufferedReader br = new BufferedReader(new FileReader(s));
 		
-		String line = "";
+		String line = br.readLine(); //dont read the first line (the headers)
 		String delimiter=","; // what the line strings will be seperated by
 		
-		BufferedReader br = new BufferedReader(new FileReader(s));
 		while ( (line = br.readLine() ) != null) // while there is a line
 			list.add(line.split(delimiter)); // add the raw line to the list
 		br.close();
@@ -40,6 +65,12 @@ public class FileInterpreter {
 		return(export);
 	}
 	
+	/**
+	 * Utility method to retrieve the headers (1st row, containing which columns are which) so the other methods can search through the data file
+	 * 
+	 * @param s - the file to extract headers from
+	 * @throws IOException - when the specified file is not found
+	 */
 	private static String[] getHeaders(String s) throws IOException{
 		
 		BufferedReader br = new BufferedReader(new FileReader(s));
@@ -57,6 +88,12 @@ public class FileInterpreter {
 		return(header);
 	}
 	
+	/**
+	 * Prints out the headers of a specified file so the programmer can learn what their options are
+	 * 
+	 * @param s - the file to print headers from
+	 * @throws IOException - when the specified file is not found
+	 */
 	public static void listHeaders(String s) throws IOException{
 		// same as getHeaders but will print instead
 		
@@ -66,15 +103,26 @@ public class FileInterpreter {
 		
 		for (int i=0; i<headers.length; i++){
 			String Header = headers[i].split("/")[0];
-			System.out.println(Header);
+			System.out.println(">"+Header+"<"); // >< will show if a space is there or not
 		}
 		
 		br.close();
 	}
 	
+	/**
+	 * Trims dataset to only include the desired columns
+	 * 
+	 * @param data - The dataset to extract from
+	 * @param headers - All headers in the dataset
+	 * @param find - The desired headers
+	 * @return String[][] - A set of data trimmed to only include the columns corresponding to desired headers
+	 * @throws RuntimeException - Thrown when an invalid header is encountered or if it isnt found
+	 */
 	private static String[][] extractElements(String[][] data, String[] headers, String[] find){
+		
 		int[] index = new int[find.length];
 		boolean[] found = new boolean[find.length];
+		
 		for (int i=0; i<find.length; i++){
 			for (int j=0; j<headers.length; j++){
 				if ( (find[i].compareTo(headers[j])) == 0 ){
@@ -83,8 +131,10 @@ public class FileInterpreter {
 					break;
 				}		
 			}
-			if (found[i]==false)
+			if (found[i]==false){
+				System.out.println(">"+find[i]+"<");
 				throw new RuntimeException("Header index not found");
+			}
 		}
 		
 		String[][] export = new String[data.length][index.length];
