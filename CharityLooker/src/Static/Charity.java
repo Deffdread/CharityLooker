@@ -1,7 +1,8 @@
+package Static;
 
 public class Charity {
 	private String   name; //name of charity
-	private String   desc; //description
+	private String   desc; //description (category number)
 	private String   bnum; //business number/ ID
 	private String   land; //parent country
 	private String   home; //'hometown'/ where HQ is
@@ -10,7 +11,7 @@ public class Charity {
 	private String[] serv; //current services
 	private int[] stat; //financial statistics
 	
-	public Charity(){
+	public Charity(){ //Catch "Void" charity
 		this.name="Empty";
 		this.desc="Void";
 		this.bnum="00000";
