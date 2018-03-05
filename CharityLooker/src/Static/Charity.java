@@ -1,5 +1,12 @@
 package Static;
 
+/**
+ * 
+ * 
+ * @author Jason Nagy, 400055130
+ * @since February 26/18
+ * @version 1.0
+ */
 public class Charity {
 	private String   name; //name of charity
 	private String   desc; //description (category number)
