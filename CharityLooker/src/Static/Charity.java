@@ -1,5 +1,7 @@
 package Static;
 
+import java.util.Comparator;
+
 /**
  * 
  * 
@@ -7,7 +9,7 @@ package Static;
  * @since February 26/18
  * @version 1.0
  */
-public class Charity {
+public class Charity implements Comparable<Charity>{
 	private String   name; //name of charity
 	private String   desc; //description (category number)
 	private String   bnum; //business number/ ID
@@ -160,4 +162,52 @@ public class Charity {
 	public int getStats(int i){
 		return (this.stat[i]);
 	}
+	
+	
+	//Instead of printing a memory location, prints name and bnum for object prints 
+	  @Override
+	  public String toString() {
+	    return this.name+" "+this.bnum;
+	  }
+
+	//Because we use comparable, the default comparable must be included. (This is not suppose to do anything) 
+	@Override
+	public int compareTo(Charity o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}
+
+
+
+
+
+
+
+
+class nameComparator implements Comparator<Charity> 
+{
+
+
+	public int compare(Charity o1, Charity o2) {
+    	String name1 = o1.getName();
+    	String name2 = o2.getName(); 
+    	
+    	return name1.compareTo(name2);
+	}
+
+}
+
+
+class businessComparator implements Comparator<Charity> 
+{
+
+
+	public int compare(Charity o1, Charity o2) {
+    	String name1 = o1.getBnum();
+    	String name2 = o2.getBnum(); 
+    	
+    	return name1.compareTo(name2);
+	}
+
 }
