@@ -171,7 +171,7 @@ public class Charity implements Comparable<Charity>{
 	//Instead of printing a memory location, prints name and bnum for object prints 
 	  @Override
 	  public String toString() {
-	    return this.name+" "+this.bnum;
+	    return this.bnum+"|"+this.name;
 	  }
 
 	//Because we use comparable, the default comparable must be included. (This is not suppose to do anything) 
