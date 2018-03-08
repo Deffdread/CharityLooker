@@ -1,8 +1,6 @@
 package Static;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public class DataPacker {
 	
@@ -62,7 +60,7 @@ static Charity[] charityArray;
 		 * 1600 - Is charity private
 		 * 2400 - Has the charity carried any political activities
 		 */
-		String[] header2 = new String[] {"BN","Program #1 Code","Program #1","Program #2 Code","Program #2","Program #3 Code","Program #3 ","1600","2400"};
+		String[] header2 = new String[] {"BN","Program #1 Code","Program #1","Program #2 Code","Program #2","Program #3 Code","Program #3","1600","2400"};
 		String[][] data2 = FileInterpreter.getDataFromFile("data/Charity_GeneralInfo.csv", header2);
 		
 		//Compensation
@@ -99,12 +97,10 @@ static Charity[] charityArray;
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
 		
 		Charity[] export = new Charity[data1.length];
-		charityArray = new Charity[data1.length]; // New
 		
 		//Not sure
 		for (int i=0; i<export.length; i++){
 			if ( sharedCharity(data1, data2, data3, data4, data5, i) ){
-<<<<<<< HEAD
 				String name = data1[i][2];
 				String desc = data4[i][2];
 				String BN = data1[i][0];
@@ -112,20 +108,14 @@ static Charity[] charityArray;
 				String home = data1[i][3];
 				String[] opcy = new String[] {data2[i][1], data2[i][3], data2[i][5]};
 				String[] deta = new String[] {data2[i][2],data2[i][4],data2[i][6],};
-				String[] fstat = new String[] {data4[i][1],data4[i][2],data4[i][3],data4[i][4],data4[i][5],data4[i][6],data4[i][7],data4[i][8]};
- 				String[] misc = new String[] {data1[i][2],data3[i][2],data2[i][8],data2[i][9],data3[i][1],data3[i][2],data3[i][3]};
+				String[] fstat = new String[] {data5[i][1],data5[i][2],data5[i][3],data5[i][4],data5[i][5],data5[i][6],data5[i][7]};
+ 				String[] misc = new String[] {data1[i][2],data3[i][2],data2[i][7],data2[i][8],data3[i][1],data3[i][2],data3[i][3]};
 				export[i]=new Charity(name, desc, BN, land, home, opcy, deta, misc, fstat);
-=======
-				export[i]=new Charity();  //Note: Unsure
-
-
-			
->>>>>>> 61595e970d8b5b5f65647c580cfe88d8f0b3cab8
 			}
 		}
 		
 		
-		for(int i = 0; i < charityArray.length;i++) {
+		/*for(int i = 0; i < charityArray.length;i++) {
 			charityArray[i] = new Charity(data1[i][4],data4[i][2],data1[i][0],null,null,null, null, null, null); //Note: not sure about operating countries,Services
 			
 			/*	For Reference
@@ -138,22 +128,17 @@ static Charity[] charityArray;
 			private String[] prog; //current programs
 			private String[] serv; //current services
 			private int[] stat; //financial statistics
-		*/
-		}
+		}*/
 		
 		double end=stopwatch.elapsedTime();
 		System.out.println("Loaded in: "+( (end-begin)/1000000) );
-<<<<<<< HEAD
-=======
 		
-		System.out.println(export.length);
+		/*System.out.println(export.length);
 		System.out.println(data1[0][3]); //Note: Wrong
 		
 		
 		Charity test = new Charity(data1[0][4],data4[0][2],data4[0][0], null, null, null, null, null, null);
-		System.out.println(test);
-
->>>>>>> 61595e970d8b5b5f65647c580cfe88d8f0b3cab8
+		System.out.println(test);*/
 	}
 	
 	private static boolean sharedCharity(String[][] d1, String[][] d2, String[][] d3, String[][] d4, String[][] d5, int i){
