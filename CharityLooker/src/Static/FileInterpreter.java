@@ -138,15 +138,16 @@ public class FileInterpreter {
 		}
 		
 		String[][] export = new String[data.length][index.length];
-		
-		for (int i=0; i<index.length; i++){
-			System.out.println(index[i]);
-		}
-		
 		for (int node=0; node<data.length; node++){
 			for (int property=0; property<index.length; property++){
-				int temp = index[property];
-				export[node][temp]=data[node][temp];
+				try {
+					int temp = index[property];
+					String thing = data[node][temp];
+					export[node][property]=thing;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					
+				}
+				
 			}
 		}
 		
