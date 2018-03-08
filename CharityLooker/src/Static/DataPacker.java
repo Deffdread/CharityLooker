@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class DataPacker {
 	
-static Charity[] charityArray; 
+static Charity[] export; 
 	
 	public static void main(String[] args) throws IOException {
 		dataToCharity();
@@ -13,11 +13,11 @@ static Charity[] charityArray;
 		//Arrays.sort(charityArray, new nameComparator());
 		
 		//businessComparator or nameComparator
-		Quick.sort(charityArray, new businessComparator());
+		//Quick.sort(export, new businessComparator());
+		//Quick.sort(export);
 		for(int i=0;i<100;i++)
-			System.out.println(charityArray[i]+" ");
-		
-		
+			System.out.println(export[i]+" ");
+
 		
 		
 		
@@ -96,11 +96,11 @@ static Charity[] charityArray;
 		String[] header5 = new String[] {"BN","4700","5100","4200","4350","4250","4100","4140"};
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
 		
-		Charity[] export = new Charity[data1.length];
+		export = new Charity[data1.length];
 		
-		//Not sure
+		//If statement does not work properly
 		for (int i=0; i<export.length; i++){
-			if ( sharedCharity(data1, data2, data3, data4, data5, i) ){
+			//if ( sharedCharity(data1, data2, data3, data4, data5, i) ){
 				String name = data1[i][2];
 				String desc = data4[i][2];
 				String BN = data1[i][0];
@@ -111,34 +111,18 @@ static Charity[] charityArray;
 				String[] fstat = new String[] {data5[i][1],data5[i][2],data5[i][3],data5[i][4],data5[i][5],data5[i][6],data5[i][7]};
  				String[] misc = new String[] {data1[i][2],data3[i][2],data2[i][7],data2[i][8],data3[i][1],data3[i][2],data3[i][3]};
 				export[i]=new Charity(name, desc, BN, land, home, opcy, deta, misc, fstat);
-			}
+				
+				//System.out.println(export[i]);
+				
+			//}
 		}
 		
 		
-		/*for(int i = 0; i < charityArray.length;i++) {
-			charityArray[i] = new Charity(data1[i][4],data4[i][2],data1[i][0],null,null,null, null, null, null); //Note: not sure about operating countries,Services
-			
-			/*	For Reference
-			private String   name; //name of charity
-			private String   desc; //description (category number)
-			private String   bnum; //business number/ ID
-			private String   land; //parent country
-			private String   home; //'hometown'/ where HQ is
-			private String[] oper; //operating countries
-			private String[] prog; //current programs
-			private String[] serv; //current services
-			private int[] stat; //financial statistics
-		}*/
 		
 		double end=stopwatch.elapsedTime();
 		System.out.println("Loaded in: "+( (end-begin)/1000000) );
 		
-		/*System.out.println(export.length);
-		System.out.println(data1[0][3]); //Note: Wrong
-		
-		
-		Charity test = new Charity(data1[0][4],data4[0][2],data4[0][0], null, null, null, null, null, null);
-		System.out.println(test);*/
+
 	}
 	
 	private static boolean sharedCharity(String[][] d1, String[][] d2, String[][] d3, String[][] d4, String[][] d5, int i){
