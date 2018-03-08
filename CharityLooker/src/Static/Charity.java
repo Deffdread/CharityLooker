@@ -44,7 +44,11 @@ public class Charity implements Comparable<Charity>{
 		
 		int[] temp = new int[financial.length];
 		for (int i=0; i<temp.length; i++)
-			temp[i]=Integer.parseInt(financial[i]);
+			try{
+				temp[i]=Integer.parseInt(financial[i]);
+			} catch (NumberFormatException e){
+				temp[i]=0;
+			};
 		this.stat=temp;
 	}
 	
