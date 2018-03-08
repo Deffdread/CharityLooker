@@ -15,8 +15,8 @@ public class Charity {
 	private String   home; //'hometown'/ where HQ is
 	private String[] oper; //operating countries
 	private String[] prog; //current programs
-	private String[] serv; //current services
 	private int[] stat; //financial statistics
+	private String[] misc; //misc statistics
 	
 	public Charity(){ //Catch "Void" charity
 		this.name="Empty";
@@ -26,11 +26,11 @@ public class Charity {
 		this.home="Nowhere";
 		this.oper=new String[] {"Nowhere"};
 		this.prog=new String[] {"Nothing"};
-		this.serv=new String[] {"Nothing"};
+		this.misc=new String[] {"Nothing"};
 		this.stat=new int[] {0};
 	}
 	
-	public Charity(String name, String description, String ID, String pcountry, String hometown, String[] ocountry, String[] programs, String[] services, int[] financial){
+	public Charity(String name, String description, String ID, String pcountry, String hometown, String[] ocountry, String[] programs, String[] services, String[] financial){
 		this.name=name;
 		this.desc=description;
 		this.bnum=ID;
@@ -38,8 +38,12 @@ public class Charity {
 		this.home=hometown;
 		this.oper=ocountry;
 		this.prog=programs;
-		this.serv=services;
-		this.stat=financial;
+		this.misc=services;
+		
+		int[] temp = new int[financial.length];
+		for (int i=0; i<temp.length; i++)
+			temp[i]=Integer.parseInt(financial[i]);
+		this.stat=temp;
 	}
 	
 	/* compareTo()
@@ -71,7 +75,7 @@ public class Charity {
 		}else if (property.compareTo("prog")==0){ //who has more programs
 			return( (this.prog.length > o.getProg().length) ? 1 : -1 );
 		}else if (property.compareTo("serv")==0){ //who has more services
-			return( (this.serv.length > o.getServ().length) ? 1 : -1 );
+			return( (this.misc.length > o.getServ().length) ? 1 : -1 );
 		}else{
 			return(0);
 		}
@@ -142,13 +146,13 @@ public class Charity {
 	}
 	
 	public void setServ(String[] s){
-		this.serv=s;
+		this.misc=s;
 	}
 	public String[] getServ(){
-		return (this.serv);
+		return (this.misc);
 	}
 	public String getServ(int i){
-		return (this.serv[i]);
+		return (this.misc[i]);
 	}
 	
 	public void setStats(int[] x){

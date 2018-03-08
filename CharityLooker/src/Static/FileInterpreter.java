@@ -71,7 +71,7 @@ public class FileInterpreter {
 	 * @param s - the file to extract headers from
 	 * @throws IOException - when the specified file is not found
 	 */
-	private static String[] getHeaders(String s) throws IOException{
+	public static String[] getHeaders(String s) throws IOException{
 		
 		BufferedReader br = new BufferedReader(new FileReader(s));
 		
@@ -139,11 +139,23 @@ public class FileInterpreter {
 		
 		String[][] export = new String[data.length][index.length];
 		
-		for (int property=0; property<index.length; property++){
-			for (int node=0; node<data.length; node++)
-				export[node][property]=data[node][property];
+		for (int i=0; i<index.length; i++){
+			System.out.println(index[i]);
+		}
+		
+		for (int node=0; node<data.length; node++){
+			for (int property=0; property<index.length; property++){
+				int temp = index[property];
+				export[node][temp]=data[node][temp];
+			}
 		}
 		
 		return(export);
 	}
 }
+
+
+/*if (find[property].compareTo("300")==0){
+	System.out.println(node+"|"+property);
+	System.out.println(export[0].length+"|"+data[0].length+"|"+property);
+}*/
