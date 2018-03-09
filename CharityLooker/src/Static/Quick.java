@@ -72,11 +72,6 @@ public class Quick {
 	        return v.compareTo(w) < 0;
 	    }
 	    
-	    //Test
-	    private static boolean less(Comparable v, Comparable w, String comparison) {
-	        if (v == w) return false;   // optimization when reference equals
-	//        return v.compareTo(w,comparison) < 0;
-	    }
 	    
 	    private static boolean less(Object v, Object w, Comparator comparator) 
 	    {

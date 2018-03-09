@@ -13,7 +13,7 @@ static Charity[] export;
 		//Arrays.sort(charityArray, new nameComparator());
 		
 		//businessComparator or nameComparator
-		//Quick.sort(export, new businessComparator());
+		Quick.sort(export, new businessComparator());
 		//Quick.sort(export);
 		for(int i=0;i<100;i++)
 			System.out.println(export[i]+" ");

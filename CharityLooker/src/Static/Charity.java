@@ -181,8 +181,8 @@ public class Charity implements Comparable<Charity>{
 	//Because we use comparable, the default comparable must be included. (This is not suppose to do anything) 
 	@Override
 	public int compareTo(Charity o) {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO Auto-generated method stub    	
+    	return this.name.compareTo(o.name);
 	}
 }
 
