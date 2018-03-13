@@ -13,14 +13,10 @@ static Charity[] export;
 		//Arrays.sort(charityArray, new nameComparator());
 		
 		//businessComparator or nameComparator
-		Quick.sort(export, new businessComparator());
+		QuickExperimental.sort(export);
 		//Quick.sort(export);
 		for(int i=0;i<100;i++)
 			System.out.println(export[i]+" ");
-
-		
-		
-		
 	}
 	
 	public static void dataToCharity() throws IOException{

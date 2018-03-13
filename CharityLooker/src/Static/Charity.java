@@ -33,7 +33,7 @@ public class Charity implements Comparable<Charity>{
 	}
 	
 	public Charity(String name, String description, String ID, String pcountry, String hometown, String[] ocountry, String[] programs, String[] services, String[] financial){
-		this.name=name;
+		this.name=name.replace("\"", "");
 		this.desc=description;
 		this.bnum=ID;
 		this.land=pcountry;
@@ -57,6 +57,19 @@ public class Charity implements Comparable<Charity>{
 	 * s1 > s2  :positive value
 	 * s1 < s2  :negative value
 	 */
+	
+	class nameComparator implements Comparator<Charity> 
+	{
+
+
+		public int compare(Charity o1, Charity o2) {
+	    	String name1 = o1.getName();
+	    	String name2 = o2.getName(); 
+	    	
+	    	return name1.compareTo(name2);
+		}
+
+	}
 	
 	public int compareTo(Charity o, String property){
 		if (property.compareTo("name")==0){
@@ -83,6 +96,7 @@ public class Charity implements Comparable<Charity>{
 		}else if (property.compareTo("serv")==0){ //who has more services
 			return( (this.misc.length > o.getServ().length) ? 1 : -1 );
 		}else{
+			System.out.println("Default Sort");
 			return(0);
 		}
 	}
@@ -94,6 +108,14 @@ public class Charity implements Comparable<Charity>{
 			return(-1);
 		}
 		return(0);
+	}
+	
+	public int compareTo(Charity o){
+	 	return (this.name.compareTo(o.getName()));
+	}
+	
+	public String toString(){
+		return (this.bnum+": "+this.name);
 	}
 	
 	public void setName(String s){
@@ -170,20 +192,6 @@ public class Charity implements Comparable<Charity>{
 	public int getStats(int i){
 		return (this.stat[i]);
 	}
-	
-	
-	//Instead of printing a memory location, prints name and bnum for object prints 
-	  @Override
-	  public String toString() {
-	    return this.bnum+"|"+this.name;
-	  }
-
-	//Because we use comparable, the default comparable must be included. (This is not suppose to do anything) 
-	@Override
-	public int compareTo(Charity o) {
-		// TODO Auto-generated method stub    	
-    	return this.name.compareTo(o.name);
-	}
 }
 
 
@@ -193,18 +201,7 @@ public class Charity implements Comparable<Charity>{
 
 
 
-class nameComparator implements Comparator<Charity> 
-{
 
-
-	public int compare(Charity o1, Charity o2) {
-    	String name1 = o1.getName();
-    	String name2 = o2.getName(); 
-    	
-    	return name1.compareTo(name2);
-	}
-
-}
 
 
 class businessComparator implements Comparator<Charity> 
