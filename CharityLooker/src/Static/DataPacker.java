@@ -8,49 +8,6 @@ public class DataPacker {
 	static Charity[] export;
 
 	public static void main(String[] args) throws IOException {
-		dataToCharity();
-
-		// Issues dealing with commas in charity names, but sort works
-		// Arrays.sort(charityArray, new nameComparator());
-
-		// businessComparator or nameComparator
-		QuickExperimental.sort(export);
-		// Quick.sort(export);
-		for (int i = 0; i < 100; i++)
-			System.out.println(export[i] + " ");
-		
-		LinearProbing businesshash = new LinearProbing(export.length);
-		LinearProbing namehash = new LinearProbing(export.length);
-		for (int i = 0; i < export.length; i++) {
-			businesshash.put(export[i].getBnum(), export[i].toString());
-			namehash.put(export[i].getName().toUpperCase(), export[i].toString());
-		}
-		
-		System.out.println("Are you searching via business name or number\n");
-		Scanner input = new Scanner(System.in);
-		String i = input.next();
-		if (i.contains("na") || i.contains("NA") || i.contains("Na") || i.contains("nA")) {
-			System.out.println("You entered business name. What is the business name of the desired charity?");
-			Scanner input2 = new Scanner(System.in);
-			String l = (input2.nextLine()).toUpperCase();
-			String j = namehash.get(l);
-			if (j == null) 
-				System.out.println("The name has either been misspelled or the charity is currently not covered");
-			else
-				System.out.println(j);
-		}
-		
-		else if (i.contains("nu") || i.contains("NU") || i.contains("Nu") || i.contains("nU") || i.contains("#")) {
-			System.out.println("You entered business number. What is the business number of the desired charity?");
-			Scanner input3 = new Scanner(System.in);
-			String k = businesshash.get(input3.next());
-			if (businesshash.get(k) == null)
-				System.out.println("The number has either been misspelled or the charity is currently not covered");
-			else
-				System.out.println(k);
-		}
-		else
-			System.out.println("Please enter either name or number");
 	}
 
 	public static void dataToCharity() throws IOException {
