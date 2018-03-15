@@ -12,8 +12,11 @@ static Charity[] export;
 		//Issues dealing  with commas in charity names, but sort works
 		//Arrays.sort(charityArray, new nameComparator());
 		
+		for(int i=0;i<100;i++)
+			System.out.println(export[i]+" ");
+		System.out.println("-----");
 		//businessComparator or nameComparator
-		QuickExperimental.sort(export);
+		QuickExperimental.sort(export, "name");
 		//Quick.sort(export);
 		for(int i=0;i<100;i++)
 			System.out.println(export[i]+" ");

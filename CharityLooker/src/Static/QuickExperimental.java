@@ -13,34 +13,34 @@ public class QuickExperimental {
 	     * Rearranges the array in ascending order, using the natural order.
 	     * @param a the array to be sorted
 	     */
-	    public static void sort(Charity[] a){ //, Comparator comparator) {
+	    public static void sort(Charity[] a, String sortBy){ //, Comparator comparator) {
 	        Collections.shuffle(Arrays.asList(a)); //Protects against worst case
-	        sort(a, 0, a.length - 1);
+	        sort(a, 0, a.length - 1, sortBy);
 	    }
 
 	    // quicksort the subarray from a[lo] to a[hi]
-	    private static void sort(Charity[] a, int lo, int hi) { 
+	    private static void sort(Charity[] a, int lo, int hi, String sortBy) { 
 	        if (hi <= lo) return;
-	        int j = partition(a, lo, hi);
-	        sort(a, lo, j-1);
-	        sort(a, j+1, hi);
+	        int j = partition(a, lo, hi, sortBy);
+	        sort(a, lo, j-1, sortBy);
+	        sort(a, j+1, hi, sortBy);
 	    }
 
 	    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
 	    // and return the index j.
-	    private static int partition(Charity[] a, int lo, int hi){
+	    private static int partition(Charity[] a, int lo, int hi, String sortBy){
 	        int i = lo;
 	        int j = hi + 1;
 	        Charity v = a[lo];
 	        while (true) { 
 
 	            // find item on lo to swap
-	            while (less(a[++i], v)) {
+	            while (less(a[++i], v, sortBy)) {
 	                if (i == hi) break;
 	            }
 
 	            // find item on hi to swap
-	            while (less(v, a[--j])) {
+	            while (less(v, a[--j], sortBy)) {
 	                if (j == lo) break;      // redundant since a[lo] acts as sentinel
 	            }
 
@@ -63,9 +63,9 @@ public class QuickExperimental {
 	    ***************************************************************************/
 	    
 	    // is v < w ?
-	    private static boolean less(Charity v, Charity w) {
+	    private static boolean less(Charity v, Charity w, String sortBy) {
 	        if (v == w) return false;   // optimization when reference equals
-	        return v.compareTo(w,"bnum") < 0;
+	        return v.compareTo(w,sortBy) < 0;
 	    }
 	    
 	    
@@ -86,19 +86,19 @@ public class QuickExperimental {
 	   /***************************************************************************
 	    *  Check if array is sorted - useful for debugging.
 	    ***************************************************************************/
-	    private static boolean isSorted(Charity[] a) {
-	        return isSorted(a, 0, a.length - 1);
+	    public static boolean isSorted(Charity[] a, String sortBy) {
+	        return isSorted(a, 0, a.length - 1, sortBy);
 	    }
 
-	    private static boolean isSorted(Charity[] a, int lo, int hi) {
+	    private static boolean isSorted(Charity[] a, int lo, int hi, String sortBy) {
 	        for (int i = lo + 1; i <= hi; i++)
-	            if (less(a[i], a[i-1])) return false;
+	            if (less(a[i], a[i-1], sortBy)) return false;
 	        return true;
 	    }
 
 
 	    // print array to standard output
-	    private static void show(Charity[] a) {
+	    public static void show(Charity[] a) {
 	        for (int i = 0; i < a.length; i++) {
 	            System.out.println(a[i]);
 	        }
