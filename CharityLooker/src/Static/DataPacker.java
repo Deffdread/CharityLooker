@@ -12,16 +12,6 @@ public class DataPacker {
 		double begin = stopwatch.elapsedTime();
 
 		System.out.println("----------");
-		/*
-		 * FileInterpreter.listHeaders("data/Charity_GeneralInfo.csv");
-		 * System.out.println("----------");
-		 * FileInterpreter.listHeaders("data/Charity_Compensation.csv");
-		 * System.out.println("----------");
-		 * FileInterpreter.listHeaders("data/Charity_Programs.csv");
-		 * System.out.println("----------");
-		 * FileInterpreter.listHeaders("data/Charity_Financial.csv");
-		 * System.out.println("----------");
-		 */
 
 		// Note: Some errors
 		// Identification

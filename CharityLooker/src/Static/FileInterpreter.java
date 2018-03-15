@@ -24,10 +24,6 @@ public class FileInterpreter {
 		- Then put data into Charity list
 	*/
 	
-	public static void main(String[] args) throws IOException {
-		FileInterpreter.listHeaders("data/Charity_Compensation.csv");
-	}
-	
 	/**
 	 * Method to return extract desired columns from a specified .csv file with the intended use of inserting the data into Charity ADTs
 	 * 
