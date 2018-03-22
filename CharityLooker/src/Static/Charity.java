@@ -83,9 +83,15 @@ public class Charity implements Comparable<Charity>{
 		}else if (property.compareTo("serv")==0){ //who has more services
 			return( (this.misc.length > o.getServ().length) ? 1 : -1 );
 		}else{
-			System.out.println("Default Sort");
+			System.out.println("No Operation");
 			return(0);
 		}
+	}
+	
+	public int similarTo(Charity o, String property){
+		//TODO: function to determine similarity between 2 charities for graph
+		System.out.println("Not Implemented");
+		return 0;
 	}
 	
 	public int compareTo(Charity o, int index){ //to compare financial statistics
@@ -180,16 +186,6 @@ public class Charity implements Comparable<Charity>{
 		return (this.stat[i]);
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
 class businessComparator implements Comparator<Charity> 
 {

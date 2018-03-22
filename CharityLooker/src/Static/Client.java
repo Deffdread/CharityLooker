@@ -3,6 +3,10 @@ package Static;
 import java.io.IOException;
 import java.util.Scanner;
 
+// use another hash table to classify charities based on program codes
+// if a charity has multiple codes, put it into multiple slots
+// used to determine similarities between charities
+
 public class Client {
 
 	public static void main(String[] args) throws IOException {
