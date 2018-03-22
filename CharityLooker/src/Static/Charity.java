@@ -58,19 +58,6 @@ public class Charity implements Comparable<Charity>{
 	 * s1 < s2  :negative value
 	 */
 	
-	class nameComparator implements Comparator<Charity> 
-	{
-
-
-		public int compare(Charity o1, Charity o2) {
-	    	String name1 = o1.getName();
-	    	String name2 = o2.getName(); 
-	    	
-	    	return name1.compareTo(name2);
-		}
-
-	}
-	
 	public int compareTo(Charity o, String property){
 		if (property.compareTo("name")==0){
 			return(this.name.compareTo(o.getName()));

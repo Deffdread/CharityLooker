@@ -2,7 +2,6 @@ package Static;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class Quick {
 	
@@ -14,37 +13,34 @@ public class Quick {
 	     * Rearranges the array in ascending order, using the natural order.
 	     * @param a the array to be sorted
 	     */
-	    @SuppressWarnings("rawtypes")
-		public static void sort(Comparable[] a, Comparator comparator) {
+	    public static void sort(Charity[] a, String sortBy){ //, Comparator comparator) {
 	        Collections.shuffle(Arrays.asList(a)); //Protects against worst case
-	        sort(a, 0, a.length - 1, comparator);
-	        assert isSorted(a);
+	        sort(a, 0, a.length - 1, sortBy);
 	    }
 
 	    // quicksort the subarray from a[lo] to a[hi]
-	    private static void sort(Comparable[] a, int lo, int hi, Comparator comparator) { 
+	    private static void sort(Charity[] a, int lo, int hi, String sortBy) { 
 	        if (hi <= lo) return;
-	        int j = partition(a, lo, hi, comparator);
-	        sort(a, lo, j-1, comparator);
-	        sort(a, j+1, hi, comparator);
-	        assert isSorted(a, lo, hi);
+	        int j = partition(a, lo, hi, sortBy);
+	        sort(a, lo, j-1, sortBy);
+	        sort(a, j+1, hi, sortBy);
 	    }
 
 	    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
 	    // and return the index j.
-	    private static int partition(Comparable[] a, int lo, int hi, Comparator comparator) {
+	    private static int partition(Charity[] a, int lo, int hi, String sortBy){
 	        int i = lo;
 	        int j = hi + 1;
-	        Comparable v = a[lo];
+	        Charity v = a[lo];
 	        while (true) { 
 
 	            // find item on lo to swap
-	            while (less(a[++i], v, comparator)) {
+	            while (less(a[++i], v, sortBy)) {
 	                if (i == hi) break;
 	            }
 
 	            // find item on hi to swap
-	            while (less(v, a[--j], comparator)) {
+	            while (less(v, a[--j], sortBy)) {
 	                if (j == lo) break;      // redundant since a[lo] acts as sentinel
 	            }
 
@@ -67,16 +63,16 @@ public class Quick {
 	    ***************************************************************************/
 	    
 	    // is v < w ?
-	    private static boolean less(Comparable v, Comparable w) {
+	    private static boolean less(Charity v, Charity w, String sortBy) {
 	        if (v == w) return false;   // optimization when reference equals
-	        return v.compareTo(w) < 0;
+	        return v.compareTo(w,sortBy) < 0;
 	    }
 	    
 	    
-	    private static boolean less(Object v, Object w, Comparator comparator) 
+	    /*private static boolean less(Object v, Object w) 
 	    {
 	        return comparator.compare(v, w) < 0;
-	    }
+	    }*/
 	        
 	    // exchange a[i] and a[j]
 	    private static void exch(Object[] a, int i, int j) {
@@ -90,28 +86,21 @@ public class Quick {
 	   /***************************************************************************
 	    *  Check if array is sorted - useful for debugging.
 	    ***************************************************************************/
-	    private static boolean isSorted(Comparable[] a) {
-	        return isSorted(a, 0, a.length - 1);
+	    public static boolean isSorted(Charity[] a, String sortBy) {
+	        return isSorted(a, 0, a.length - 1, sortBy);
 	    }
 
-	    private static boolean isSorted(Comparable[] a, int lo, int hi) {
+	    private static boolean isSorted(Charity[] a, int lo, int hi, String sortBy) {
 	        for (int i = lo + 1; i <= hi; i++)
-	            if (less(a[i], a[i-1])) return false;
+	            if (less(a[i], a[i-1], sortBy)) return false;
 	        return true;
 	    }
 
 
 	    // print array to standard output
-	    private static void show(Comparable[] a) {
+	    public static void show(Charity[] a) {
 	        for (int i = 0; i < a.length; i++) {
 	            System.out.println(a[i]);
 	        }
 	    }
-
-
-	    public static void main(String[] args) {
-
-	        
-	    }
-
 }

@@ -40,7 +40,7 @@ public class FuzzyScore {
 		
 		FuzzyScore fs = new FuzzyScore(language);
 		
-		int result = fs.fuzzyScore("hello", "day");
+		int result = fs.fuzzyScore("bonjour", "bonjour");
 		
 		System.out.println(result);
 	}

@@ -2,45 +2,49 @@ package Static;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
-public class QuickExperimental {
+public class OldQuick {
 	
 
 	    // This class should not be instantiated.
-	    private QuickExperimental() { }
+	    private OldQuick() { }
 
 	    /**
 	     * Rearranges the array in ascending order, using the natural order.
 	     * @param a the array to be sorted
 	     */
-	    public static void sort(Charity[] a, String sortBy){ //, Comparator comparator) {
+	    @SuppressWarnings("rawtypes")
+		public static void sort(Comparable[] a, Comparator comparator) {
 	        Collections.shuffle(Arrays.asList(a)); //Protects against worst case
-	        sort(a, 0, a.length - 1, sortBy);
+	        sort(a, 0, a.length - 1, comparator);
+	        assert isSorted(a);
 	    }
 
 	    // quicksort the subarray from a[lo] to a[hi]
-	    private static void sort(Charity[] a, int lo, int hi, String sortBy) { 
+	    private static void sort(Comparable[] a, int lo, int hi, Comparator comparator) { 
 	        if (hi <= lo) return;
-	        int j = partition(a, lo, hi, sortBy);
-	        sort(a, lo, j-1, sortBy);
-	        sort(a, j+1, hi, sortBy);
+	        int j = partition(a, lo, hi, comparator);
+	        sort(a, lo, j-1, comparator);
+	        sort(a, j+1, hi, comparator);
+	        assert isSorted(a, lo, hi);
 	    }
 
 	    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
 	    // and return the index j.
-	    private static int partition(Charity[] a, int lo, int hi, String sortBy){
+	    private static int partition(Comparable[] a, int lo, int hi, Comparator comparator) {
 	        int i = lo;
 	        int j = hi + 1;
-	        Charity v = a[lo];
+	        Comparable v = a[lo];
 	        while (true) { 
 
 	            // find item on lo to swap
-	            while (less(a[++i], v, sortBy)) {
+	            while (less(a[++i], v, comparator)) {
 	                if (i == hi) break;
 	            }
 
 	            // find item on hi to swap
-	            while (less(v, a[--j], sortBy)) {
+	            while (less(v, a[--j], comparator)) {
 	                if (j == lo) break;      // redundant since a[lo] acts as sentinel
 	            }
 
@@ -63,16 +67,16 @@ public class QuickExperimental {
 	    ***************************************************************************/
 	    
 	    // is v < w ?
-	    private static boolean less(Charity v, Charity w, String sortBy) {
+	    private static boolean less(Comparable v, Comparable w) {
 	        if (v == w) return false;   // optimization when reference equals
-	        return v.compareTo(w,sortBy) < 0;
+	        return v.compareTo(w) < 0;
 	    }
 	    
 	    
-	    /*private static boolean less(Object v, Object w) 
+	    private static boolean less(Object v, Object w, Comparator comparator) 
 	    {
 	        return comparator.compare(v, w) < 0;
-	    }*/
+	    }
 	        
 	    // exchange a[i] and a[j]
 	    private static void exch(Object[] a, int i, int j) {
@@ -86,21 +90,28 @@ public class QuickExperimental {
 	   /***************************************************************************
 	    *  Check if array is sorted - useful for debugging.
 	    ***************************************************************************/
-	    public static boolean isSorted(Charity[] a, String sortBy) {
-	        return isSorted(a, 0, a.length - 1, sortBy);
+	    private static boolean isSorted(Comparable[] a) {
+	        return isSorted(a, 0, a.length - 1);
 	    }
 
-	    private static boolean isSorted(Charity[] a, int lo, int hi, String sortBy) {
+	    private static boolean isSorted(Comparable[] a, int lo, int hi) {
 	        for (int i = lo + 1; i <= hi; i++)
-	            if (less(a[i], a[i-1], sortBy)) return false;
+	            if (less(a[i], a[i-1])) return false;
 	        return true;
 	    }
 
 
 	    // print array to standard output
-	    public static void show(Charity[] a) {
+	    private static void show(Comparable[] a) {
 	        for (int i = 0; i < a.length; i++) {
 	            System.out.println(a[i]);
 	        }
 	    }
+
+
+	    public static void main(String[] args) {
+
+	        
+	    }
+
 }
