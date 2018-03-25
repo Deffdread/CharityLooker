@@ -17,7 +17,7 @@ public class Client {
 		// Arrays.sort(charityArray, new nameComparator());
 
 		// businessComparator or nameComparator
-		Quick.sort(DataPacker.export);
+		Quick.sort(DataPacker.export,"bnum");
 		// Quick.sort(export);
 		for (int i = 0; i < 100; i++)
 			System.out.println(DataPacker.export[i] + " ");

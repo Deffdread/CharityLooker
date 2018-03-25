@@ -5,6 +5,7 @@ import java.io.IOException;
 public class DataPacker {
 
 	static Charity[] export;
+	static String[][] names;
 
 	public static void dataToCharity() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
@@ -13,6 +14,9 @@ public class DataPacker {
 
 		System.out.println("----------");
 
+		String[] nameHeader = new String[] { "Legal Name" };
+		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
+		
 		// Note: Some errors
 		// Identification
 		/*
