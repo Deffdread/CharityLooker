@@ -132,7 +132,7 @@ public class FuzzyScore {
 
                     // subsequent character matches further improve
                     // the score.
-                    if (previousMatchingCharacterIndex + 1 == termIndex) {
+                    if (previousMatchingCharacterIndex   + 1 == termIndex) {
                         score += 2;
                     }
 
