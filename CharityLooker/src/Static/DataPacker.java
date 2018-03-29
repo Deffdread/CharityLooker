@@ -3,7 +3,7 @@ package Static;
 import java.io.IOException;
 
 public class DataPacker {
-
+	
 	static Charity[] export;
 	static String[][] names;
 
@@ -89,23 +89,6 @@ public class DataPacker {
 		double end = stopwatch.elapsedTime();
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
 
-	}
-
-	private static boolean sharedCharity(String[][] d1, String[][] d2, String[][] d3, String[][] d4, String[][] d5,
-			int i) {
-		if (d1[i][0].compareTo(d2[i][0]) == 0 && d1[i][0].compareTo(d3[i][0]) == 0 && d1[i][0].compareTo(d4[i][0]) == 0
-				&& d1[i][0].compareTo(d5[i][0]) == 0) {
-			if (d2[i][0].compareTo(d3[i][0]) == 0 && d2[i][0].compareTo(d4[i][0]) == 0
-					&& d2[i][0].compareTo(d5[i][0]) == 0) {
-				if (d3[i][0].compareTo(d4[i][0]) == 0 && d3[i][0].compareTo(d5[i][0]) == 0) {
-					if (d4[i][0].compareTo(d5[i][0]) == 0) {
-						return (true);
-					}
-
-				}
-			}
-		}
-		return (false);
 	}
 
 }
