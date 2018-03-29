@@ -108,7 +108,7 @@ public class Charity implements Comparable<Charity>{
 	}
 	
 	public String toString(){
-		return (this.bnum+": "+this.name);
+		return (this.bnum+": "+this.name+" "+this.desc);
 	}
 	
 	public void setName(String s){

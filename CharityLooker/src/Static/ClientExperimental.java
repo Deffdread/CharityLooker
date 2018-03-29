@@ -41,7 +41,18 @@ public class ClientExperimental {
 				System.out.println("Please enter name of charity:\n>");
 				Scanner input = new Scanner(System.in);
 				String l = (input.nextLine()).toUpperCase();
-				String j = namehash.get(l);
+				System.out.print("What would you like to know about the charity:\n1. Business Number\n2. Operating Country\n3. Financial Statistics\n4. Program\n5. Description");
+				input = new Scanner(System.in);
+				String k = (input.nextLine());
+				String n;
+				String[] x;
+				String j = "";
+				switch(k) {
+				case "1": n = namehash.get(l); x = n.split(" ,"); j = x[0];
+				case "2": n = namehash.get(l); x = n.split(" ,"); j = x[2];
+				case "3": n = namehash.get(l); x = n.split(" ,"); j = x[7];
+				case "4": n = namehash.get(l); x = n.split(" ,"); j = x[7];
+				}
 				if (j == null){
 					System.out.println("The name has either been misspelled or the charity is currently not covered. Did you mean:");
 					

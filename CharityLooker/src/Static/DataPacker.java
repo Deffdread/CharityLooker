@@ -1,18 +1,22 @@
 package Static;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataPacker {
 
 	static Charity[] export;
 	static String[][] names;
-
+	static HashMap<String, ArrayList<Charity>> hash = new HashMap<String, ArrayList<Charity>>();
 	public static void dataToCharity() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
 
 		double begin = stopwatch.elapsedTime();
 
 		System.out.println("----------");
+		
+		Charity[] export;
 
 		String[] nameHeader = new String[] { "Legal Name" };
 		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
@@ -89,6 +93,10 @@ public class DataPacker {
 		double end = stopwatch.elapsedTime();
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
 
+	}
+	
+	protected Charity[] getData() {
+		return export;
 	}
 
 	private static boolean sharedCharity(String[][] d1, String[][] d2, String[][] d3, String[][] d4, String[][] d5,

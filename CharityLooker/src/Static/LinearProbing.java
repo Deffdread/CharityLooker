@@ -5,7 +5,7 @@ public class LinearProbing {
 	private int m;
 	private int n;
 	private String[] keys;
-	private String[] vals;
+	String[] vals;
 
 	public LinearProbing(int m) {
 		this.n = 0;
@@ -40,11 +40,11 @@ public class LinearProbing {
 			return x*-1;
 	}
 
-	public void put(String key, String val) {
+	public void put(String key, String charity) {
 		if (key == null)
 			throw new IllegalArgumentException("first argument to put() is null");
 
-		if (val == null) {
+		if (charity == null) {
 			delete(key);
 			return;
 		}
@@ -55,12 +55,12 @@ public class LinearProbing {
 		int i;
 		for (i = hash(key); this.keys[i] != null; i = (i + 1) % m) {
 			if (this.keys[i].equals(key)) {
-				this.vals[i] = val;
+				this.vals[i] = charity;
 				return;
 			}
 		}
 		this.keys[i] = key;
-		this.vals[i] = val;
+		this.vals[i] = charity;
 		this.n++;
 	}
 
