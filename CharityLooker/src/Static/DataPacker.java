@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DataPacker {
-
+	
 	static Charity[] export;
 	static String[][] names;
 	static HashMap<String, ArrayList<Charity>> hash = new HashMap<String, ArrayList<Charity>>();
@@ -97,23 +97,6 @@ public class DataPacker {
 	
 	protected Charity[] getData() {
 		return export;
-	}
-
-	private static boolean sharedCharity(String[][] d1, String[][] d2, String[][] d3, String[][] d4, String[][] d5,
-			int i) {
-		if (d1[i][0].compareTo(d2[i][0]) == 0 && d1[i][0].compareTo(d3[i][0]) == 0 && d1[i][0].compareTo(d4[i][0]) == 0
-				&& d1[i][0].compareTo(d5[i][0]) == 0) {
-			if (d2[i][0].compareTo(d3[i][0]) == 0 && d2[i][0].compareTo(d4[i][0]) == 0
-					&& d2[i][0].compareTo(d5[i][0]) == 0) {
-				if (d3[i][0].compareTo(d4[i][0]) == 0 && d3[i][0].compareTo(d5[i][0]) == 0) {
-					if (d4[i][0].compareTo(d5[i][0]) == 0) {
-						return (true);
-					}
-
-				}
-			}
-		}
-		return (false);
 	}
 
 }

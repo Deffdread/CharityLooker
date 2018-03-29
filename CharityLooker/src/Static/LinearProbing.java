@@ -1,7 +1,7 @@
 package Static;
 
 public class LinearProbing {
-
+	
 	private int m;
 	private int n;
 	private String[] keys;
