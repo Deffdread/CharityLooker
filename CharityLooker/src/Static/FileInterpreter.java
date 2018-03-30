@@ -121,7 +121,8 @@ public class FileInterpreter {
 		
 		for (int i=0; i<find.length; i++){
 			for (int j=0; j<headers.length; j++){
-				if ( (find[i].compareTo(headers[j])) == 0 ){
+				//System.out.println(find[i].equals(headers[j])+"|"+find[i]+"|"+headers[j]);
+				if ( find[i].trim().equals(headers[j].trim()) ){
 					index[i]=j;
 					found[i]=true;
 					break;

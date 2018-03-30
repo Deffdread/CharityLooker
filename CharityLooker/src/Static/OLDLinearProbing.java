@@ -1,17 +1,17 @@
 package Static;
 
-public class LinearProbing {
+public class OLDLinearProbing {
 	
 	private int m;
 	private int n;
 	private String[] keys;
-	Charity[] vals;
+	String[] vals;
 
-	public LinearProbing(int m) {
+	public OLDLinearProbing(int m) {
 		this.n = 0;
 		this.m = m;
 		this.keys = new String[m];
-		this.vals = new Charity[m];
+		this.vals = new String[m];
 	}
 
 	public boolean contains(String key) {
@@ -21,7 +21,7 @@ public class LinearProbing {
 	}
 
 	private void resize(int capacity) {
-		LinearProbing temp = new LinearProbing(capacity);
+		OLDLinearProbing temp = new OLDLinearProbing(capacity);
 		for (int i = 0; i < this.m; i++) {
 			if (this.keys[i] != null) {
 				temp.put(this.keys[i], this.vals[i]);
@@ -40,7 +40,7 @@ public class LinearProbing {
 			return x*-1;
 	}
 
-	public void put(String key, Charity charity) {
+	public void put(String key, String charity) {
 		if (key == null)
 			throw new IllegalArgumentException("first argument to put() is null");
 
@@ -78,7 +78,7 @@ public class LinearProbing {
         for (i = (i + 1) % this.m; keys[i] != null; i = (i + 1) % this.m)
         {
             String tmp1 = keys[i];
-            Charity tmp2 = vals[i];
+            String tmp2 = vals[i];
             keys[i] = null;
             vals[i] = null;
             this.n--;  
@@ -87,13 +87,12 @@ public class LinearProbing {
         this.n--;        
     }      
 	
-	public Charity get(String key) {
+	public String get(String key) {
 		if (key == null)
 			throw new IllegalArgumentException("argument to get() is null");
 		for (int i = hash(key); keys[i] != null; i = (i + 1) % m)
 			if (keys[i].equals(key))
 				return vals[i];
-		System.out.println("Null Return");
 		return null;
 	}
 }

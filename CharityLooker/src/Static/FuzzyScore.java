@@ -40,15 +40,8 @@ public class FuzzyScore {
 		
 		FuzzyScore fs = new FuzzyScore(language);
 
-		String name = "Jason Nagy";
-		System.out.println(fs.fuzzyScore(name, "Jason Nagy"));
-		System.out.println(fs.fuzzyScore(name, "Bcefhiklmp"));
-		System.out.println(fs.fuzzyScore(name, "JasonjNagy"));
-		System.out.println(fs.fuzzyScore(name, "Jaison Naj"));
-		System.out.println(fs.fuzzyScore(name, "afhbbsdjfb"));
-		System.out.println(fs.fuzzyScore("why encounter".toUpperCase(), "WHY ENCOUNTER INC. ".toUpperCase()));
-		System.out.println(fs.fuzzyScore("WHY ENCOUNTER INC. ", "WHY ENCOUNTER INC. "));
-		System.out.println(fs.fuzzyScore("WHY ENCOUNTER INC. ", "WHY ENCOUNTER INC. ")*.15);
+		String name = "WHY ENCOUNTER INC";
+		System.out.println(fs.fuzzyScore(name, "WHY ENCOUNTER INC."));
 	}
 
     /**

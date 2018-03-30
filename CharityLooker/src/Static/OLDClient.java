@@ -1,13 +1,10 @@
 package Static;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 // use another hash table to classify charities based on program codes
 // if a charity has multiple codes, put it into multiple slots
 // used to determine similarities between charities
 
-public class Client {
+/*public class OLDClient {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -66,4 +63,4 @@ public class Client {
 	}while (g.contains("y") || g.contains("Y"));
 	}
 	}
-
+*/

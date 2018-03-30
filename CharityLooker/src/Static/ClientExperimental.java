@@ -1,66 +1,129 @@
 package Static;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class ClientExperimental {
 
 	public static void main(String[] args) throws IOException {
-		DataPacker.dataToCharity();
-
-		// Issues dealing with commas in charity names, but sort works
-		// Arrays.sort(charityArray, new nameComparator());
 		
-		// if a person wants to search for all countries in "
-
-		// businessComparator or nameComparator
-		Quick.sort(DataPacker.export,"bnum");
-		// Quick.sort(export);
-		for (int i = 0; i < 100; i++)
-			System.out.println(DataPacker.export[i] + " ");
+		DataPacker DP = new DataPacker();
 		
-		LinearProbing businesshash = new LinearProbing(DataPacker.export.length);
-		LinearProbing namehash = new LinearProbing(DataPacker.export.length);
-		for (int i = 0; i < DataPacker.export.length; i++) {
-			businesshash.put(DataPacker.export[i].getBnum(), DataPacker.export[i].toString());
-			namehash.put(DataPacker.export[i].getName().toUpperCase(), DataPacker.export[i].toString());
+		Charity[] charities = DP.getData();
+
+		Quick.sort(DP.getData(),"bnum");
+		
+		LinearProbing hashBnum = new LinearProbing(charities.length);
+		LinearProbing hashName = new LinearProbing(charities.length);
+		for (int i = 0; i < charities.length; i++) {
+			hashBnum.put(charities[i].getBnum(), charities[i]);
+			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
 		}
 		
-		String g;
+		//for (int i=0; i<100; i++)
+		//	System.out.println(DP.getData()[i]);
+		
+		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
+		String choice = "";
+		Scanner inputStr = new Scanner(System.in);
+		Locale language = new Locale("English");
+		FuzzyScore fs = new FuzzyScore(language);
+		
+		Charity current = null;
+		boolean hold = false;
+		boolean nullCur=false;
 		do {
-			// use numbers for choices
-			System.out.println("What would you like to search by:\n1. Name\n2. Number\n>");
-			// are multiple scanners needed
-			Scanner sc = new Scanner(System.in);
-			String i = sc.nextLine();
+			if (!hold){
+				current = null;
+				System.out.print("Would you like to:\n1. Search by name\n2. Search by business number\n9. Quit\n>");
+				choice = inputStr.nextLine();
+			}
+			hold=false;
+			nullCur=false;
 			
-			if (i.equals("1")) {
-				System.out.println("Please enter name of charity:\n>");
-				Scanner input = new Scanner(System.in);
-				String l = (input.nextLine()).toUpperCase();
-				System.out.print("What would you like to know about the charity:\n1. Business Number\n2. Operating Country\n3. Financial Statistics\n4. Program\n5. Description");
-				input = new Scanner(System.in);
-				String k = (input.nextLine());
-				String n;
-				String[] x;
-				String j = "";
-				switch(k) {
-				case "1": n = namehash.get(l); x = n.split(" ,"); j = x[0];
-				case "2": n = namehash.get(l); x = n.split(" ,"); j = x[2];
-				case "3": n = namehash.get(l); x = n.split(" ,"); j = x[7];
-				case "4": n = namehash.get(l); x = n.split(" ,"); j = x[7];
+			if (choice.equals("1")){ //search by name
+				System.out.print("Please enter the name of the charity:\n>");
+				choice = inputStr.nextLine().toUpperCase();
+				if (choice.contentEquals("1"))
+					choice="fekjbwkbfkbkfbkb";
+				current = hashName.get(choice);
+				if (current==null){
+					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these names if so:");
+					nullCur=true;
 				}
-				if (j == null){
-					System.out.println("The name has either been misspelled or the charity is currently not covered. Did you mean:");
+				
+			}else if (choice.equals("2")){ //search by business number
+				System.out.print("Please enter the business number of the charity:\n>");
+				choice = inputStr.nextLine().toUpperCase();
+				current = hashBnum.get(choice);
+				if (current==null){
+					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+					nullCur=true;
+				}
+				
+			}else if (choice.equals("9")){
+				System.out.println("Exiting now...");
+			}else{
+				System.out.println("Invalid Input - Please try again");
+			}
+			
+			if (nullCur=true){
+				String lookFor=choice;
+				
+				ArrayList<int[]> closeL = new ArrayList<int[]>();
+				
+				int max = fs.fuzzyScore(choice,choice.toUpperCase());
+				int cutOff = (int) (max*.55);
+				int score = 0;
+				for (int cur=0; cur<DP.getNames().length; cur++){
+					if (lookFor.equals("1"))
+						score = fs.fuzzyScore(choice,DP.getNames()[cur][1].toUpperCase());
+					else if (lookFor.equals("2"))
+						score = fs.fuzzyScore(choice,DP.getNames()[cur][0].toUpperCase());
+					if (score>=cutOff){
+						closeL.add(new int[] {cur,score});
+					}
+				}
+				int[][] close =closeL.toArray(new int[0][0]);
+				
+				for (int i=0; i<close.length-1; i++){
+					for (int j=0; j<close.length-1; j++){
+						if (close[i][1]<close[j][1]){
+							int[] temp = close[i];
+							close[i]=close[j];
+							close[j]=temp;
+						}
+					}
+				}
+				for (int i = 0; i < close.length; i++){
+					if (lookFor.equals("1"))
+						System.out.println(DP.getNames()[close[i][0]][1]);
+					else if (lookFor.equals("2"))
+						System.out.println(charities[i].getBnum()+" - "+charities[i].getName());
 					
-					Locale language = new Locale("English");
-					FuzzyScore fs = new FuzzyScore(language);
+				}
+				System.out.println("("+close.length+" return(s))");
+				
+				System.out.print("Would you like to try again?\n1. Yes\n2. No\n>");
+				choice = inputStr.nextLine();
+				if (choice.equals("1"))
+					hold= true;
+				else
+					hold=false;
+			}
+			
+			if (current != null){ //explore data
+				
+			}
+			
+		}while(!choice.contentEquals("9"));
+		inputStr.close();
+		
+	
 					
-					int max = fs.fuzzyScore(l.toUpperCase(),l.toUpperCase());
-					int cutOff = (int) (max*.4);
-					
-					
-					for (int cur=0; cur<DataPacker.names.length; cur++){
+		/*			for (int cur=0; cur<DataPacker.names.length; cur++){
 						if (fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase())>=cutOff){
 							System.out.println(DataPacker.names[cur][0]);
 							System.out.println(fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase()));
@@ -76,7 +139,7 @@ public class ClientExperimental {
 				System.out.println("What is the buisness number of desired charity\n>");
 				Scanner input3 = new Scanner(System.in);
 				String h = input3.next();
-				String k = businesshash.get(h);
+				String k = hashBnum.get(h);
 				if (k == null)
 					System.out.println("The number has either been misspelled or the charity is currently not covered");
 				else
@@ -90,7 +153,7 @@ public class ClientExperimental {
 			System.out.println("Press 1 to continue:\n>");
 			Scanner input4 = new Scanner(System.in);
 			g = input4.nextLine();
-		}while (g.equals("1"));
+		}while (g.equals("1"));*/
 	}
 }
 

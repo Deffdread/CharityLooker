@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class OldQuick {
+public class OLDQuick {
 	
 
 	    // This class should not be instantiated.
-	    private OldQuick() { }
+	    private OLDQuick() { }
 
 	    /**
 	     * Rearranges the array in ascending order, using the natural order.
