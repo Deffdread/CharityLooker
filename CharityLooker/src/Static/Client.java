@@ -17,7 +17,7 @@ public class Client {
 		// Arrays.sort(charityArray, new nameComparator());
 
 		// businessComparator or nameComparator
-		Quick.sort(DataPacker.export,"bnum");
+		Quick.sort(DataPacker.getData(),"bnum");
 		// Quick.sort(export);
 		for (int i = 0; i < 100; i++)
 			System.out.println(DataPacker.export[i] + " ");
@@ -49,6 +49,8 @@ public class Client {
 			System.out.println("You entered business number. What is the business number of the desired charity?");
 			Scanner input3 = new Scanner(System.in);
 			String h = input3.next();
+			System.out.println("What would you like to know about the charity?");
+			
 			String k = businesshash.get(h);
 			if (k == null)
 				System.out.println("The number has either been misspelled or the charity is currently not covered");
