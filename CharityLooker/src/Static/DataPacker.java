@@ -82,7 +82,7 @@ public class DataPacker {
 			}catch (Exception e){
 				opcy = "Canada"; // data6[i][1];
 			}
-			String[] deta = new String[] { data2[i][2], data2[i][4], data2[i][6], };
+			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
 			String[] misc = new String[] { data1[i][2], data3[i][2], data2[i][7], data2[i][8], data3[i][1], data3[i][2],
