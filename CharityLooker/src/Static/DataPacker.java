@@ -76,8 +76,9 @@ public class DataPacker {
 			String home = data1[i][3];
 			String opcy = "";
 			try{
-				if (data6[i][0].equals(data1[i][0]))
-					opcy = data6[i][1];
+				for (int j=0; j<data6.length; j++)
+					if (data6[i][0].equals(data1[j][0]))
+						opcy = data6[j][1];
 			}catch (Exception e){
 				opcy = "Canada"; // data6[i][1];
 			}
