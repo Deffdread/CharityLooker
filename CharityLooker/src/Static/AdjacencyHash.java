@@ -9,10 +9,21 @@ public class AdjacencyHash {
 		private int m;
 		private String[] keys;
 		private ArrayList<LinkedList<Charity>> vals;
+		private int n;
 		
 		public AdjacencyHash(int m) throws IOException{
 			this.m = m;
 			this.keys = new String[this.m];
+			this.n = 0;
+			int i = 0;
+			this.vals = new ArrayList<LinkedList<Charity>>();
+			while(i != this.m)
+				{
+					System.out.println(i);
+					LinkedList<Charity> list = new LinkedList<Charity>();
+				    this.vals.add(list);
+				    i++;
+				}
 		}
 		
 		public int numOfCities() {
@@ -31,9 +42,11 @@ public class AdjacencyHash {
 				return x*-1;
 		}
 
-		public void put(String key, Charity val) {
+		public void put(String key, Charity val) throws IOException {
 			if (key == null)
 				throw new IllegalArgumentException("first argument to put() is null");
+			if (this.n >= this.m / 2)
+				resize(2 * m);
 			System.out.println(hash(key) + " " + key);
 			int i;
 			for (i = hash(key); this.keys[i] != null; i = (i + 1) % m) {
@@ -44,13 +57,14 @@ public class AdjacencyHash {
 			}
 			this.keys[i] = key;
 			this.vals.get(i).add(val);
+			this.n++;
 		}     
 		
-		private void resize(int capacity) {
+		private void resize(int capacity) throws IOException {
 			AdjacencyHash temp = new AdjacencyHash(capacity);
 			for (int i = 0; i < this.m; i++) {
 				if (this.keys[i] != null) {
-					for (int j = 0; j < this.m; j++)
+					for (int j = 0; j < this.vals.get(i).size(); j++)
 						temp.put(this.keys[i], this.vals.get(i).get(j));
 				}
 			}
@@ -70,29 +84,6 @@ public class AdjacencyHash {
 			return null;
 		}
 		
-		public void delete(String key) 
-	    {
-	        if (!contains(key)) 
-	            return;
-	        
-	        int i = hash(key);
-	        while (!key.equals(keys[i])) 
-	            i = (i + 1) % this.m;        
-	        keys[i] = null;
-	        this.vals.get(i) = null;
-	    
-	        for (i = (i + 1) % this.m; keys[i] != null; i = (i + 1) % this.m)
-	        {
-	            String tmp1 = keys[i];
-	            String tmp2 = vals[i];
-	            keys[i] = null;
-	            vals[i] = null;
-	            this.n--;  
-	            put(tmp1, tmp2);            
-	        }
-	        this.n--;        
-	    }
-		
 		public String toString() {
 			String temp = "";
 			for (int i = 0; i < keys.length; i++) {
@@ -103,6 +94,4 @@ public class AdjacencyHash {
 			}
 			return temp;
 		}
-}
-
 }

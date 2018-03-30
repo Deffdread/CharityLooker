@@ -2,6 +2,7 @@ package Static;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -17,9 +18,18 @@ public class ClientExperimental {
 		
 		LinearProbing hashBnum = new LinearProbing(charities.length);
 		LinearProbing hashName = new LinearProbing(charities.length);
+		AdjacencyHash hashProg = new AdjacencyHash(16);
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
 			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
+			for (int j = 0; j < charities[i].getProg().length; j++) {
+				hashProg.put(charities[i].getProg()[j], charities[i]);
+			}
+		
+		}
+		LinkedList<Charity> charity = hashProg.get("I1");
+		for (int i = 0; i < charity.size(); i++) {
+			System.out.println(charity.get(i));
 		}
 		
 		//for (int i=0; i<100; i++)
