@@ -34,6 +34,7 @@ public class ClientExperimental {
 		Charity current = null;
 		boolean hold = false;
 		boolean nullCur=false;
+		String mode="0";
 		do {
 			if (!hold){
 				current = null;
@@ -42,8 +43,10 @@ public class ClientExperimental {
 			}
 			hold=false;
 			nullCur=false;
+			mode="0";
 			
 			if (choice.equals("1")){ //search by name
+				mode="1";
 				System.out.print("Please enter the name of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				if (choice.contentEquals("1"))
@@ -55,12 +58,14 @@ public class ClientExperimental {
 				}
 				
 			}else if (choice.equals("2")){ //search by business number
+				mode="2";
 				System.out.print("Please enter the business number of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashBnum.get(choice);
 				if (current==null){
-					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these business numbers if so:");
 					nullCur=true;
+					choice="2";
 				}
 				
 			}else if (choice.equals("9")){
@@ -69,13 +74,19 @@ public class ClientExperimental {
 				System.out.println("Invalid Input - Please try again");
 			}
 			
-			if (nullCur=true){
-				String lookFor=choice;
+			if (nullCur==true){
+				String lookFor=mode;
 				
 				ArrayList<int[]> closeL = new ArrayList<int[]>();
 				
+				double factor=0;
+				if (lookFor.equals("1"))
+					factor=0.6;
+				else if (lookFor.equals("2"))
+					factor=0.1;
+				
 				int max = fs.fuzzyScore(choice,choice.toUpperCase());
-				int cutOff = (int) (max*.55);
+				int cutOff = (int) (max*factor);
 				int score = 0;
 				for (int cur=0; cur<DP.getNames().length; cur++){
 					if (lookFor.equals("1"))
@@ -97,6 +108,7 @@ public class ClientExperimental {
 						}
 					}
 				}
+				System.out.println("("+close.length+" return(s): Currently sorting for \""+choice+"\")");
 				for (int i = 0; i < close.length; i++){
 					if (lookFor.equals("1"))
 						System.out.println(DP.getNames()[close[i][0]][1]);
@@ -104,7 +116,6 @@ public class ClientExperimental {
 						System.out.println(charities[i].getBnum()+" - "+charities[i].getName());
 					
 				}
-				System.out.println("("+close.length+" return(s))");
 				
 				System.out.print("Would you like to try again?\n1. Yes\n2. No\n>");
 				choice = inputStr.nextLine();
@@ -120,40 +131,6 @@ public class ClientExperimental {
 			
 		}while(!choice.contentEquals("9"));
 		inputStr.close();
-		
-	
-					
-		/*			for (int cur=0; cur<DataPacker.names.length; cur++){
-						if (fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase())>=cutOff){
-							System.out.println(DataPacker.names[cur][0]);
-							System.out.println(fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase()));
-						}
-					}
-					
-				}else
-					System.out.println(j);
-				//TODO: ask to show charity data and stats
-			}
-			
-			else if (i.equals("2")) {
-				System.out.println("What is the buisness number of desired charity\n>");
-				Scanner input3 = new Scanner(System.in);
-				String h = input3.next();
-				String k = hashBnum.get(h);
-				if (k == null)
-					System.out.println("The number has either been misspelled or the charity is currently not covered");
-				else
-					System.out.println(k);
-				//TODO: ask to show charity data and stats
-			}
-			else {
-				System.out.println("Invalid Input");
-			}
-			
-			System.out.println("Press 1 to continue:\n>");
-			Scanner input4 = new Scanner(System.in);
-			g = input4.nextLine();
-		}while (g.equals("1"));*/
 	}
 }
 
