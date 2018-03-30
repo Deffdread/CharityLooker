@@ -63,7 +63,7 @@ public class DataPacker {
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
 		
 		String[] header6 = new String[] { "BN", "Country" };
-		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header6);
+		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_OperatingCountry.csv", header6);
 
 		export = new Charity[data1.length];
 
@@ -74,7 +74,13 @@ public class DataPacker {
 			String BN = data1[i][0];
 			String land = data1[i][4];
 			String home = data1[i][3];
-			String opcy = data6[i][1];
+			String opcy = "";
+			try{
+				if (data6[i][0].equals(data1[i][0]))
+					opcy = data6[i][1];
+			}catch (Exception e){
+				opcy = "Canada"; // data6[i][1];
+			}
 			String[] deta = new String[] { data2[i][2], data2[i][4], data2[i][6], };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
