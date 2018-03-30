@@ -1,24 +1,19 @@
 package Static;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DataPacker {
 	
-	static Charity[] export;
-	static String[][] names;
-	static HashMap<String, ArrayList<Charity>> hash = new HashMap<String, ArrayList<Charity>>();
-	public static void dataToCharity() throws IOException {
+	private Charity[] export;
+	private String[][] names;
+
+	public DataPacker() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
+		System.out.println("=====");
 
 		double begin = stopwatch.elapsedTime();
 
-		System.out.println("----------");
-		
-		Charity[] export;
-
-		String[] nameHeader = new String[] { "Legal Name" };
+		String[] nameHeader = new String[] { "BN", "Legal Name" };
 		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
 		
 		// Note: Some errors
@@ -29,7 +24,7 @@ public class DataPacker {
 		 */
 		String[] header1 = new String[] { "BN", "Category", "Legal Name", "City", "Country" };
 		String[][] data1 = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", header1);
-
+		
 		// General Info
 		/*
 		 * Meanings BN - Business Number Program #1 Code - Operating Area Code Program
@@ -66,28 +61,26 @@ public class DataPacker {
 		 */
 		String[] header5 = new String[] { "BN", "4700", "5100", "4200", "4350", "4250", "4100", "4140" };
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
+		
+		String[] header6 = new String[] { "BN", "Country" };
+		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header6);
 
 		export = new Charity[data1.length];
 
 		// If statement does not work properly
 		for (int i = 0; i < export.length; i++) {
-			// if ( sharedCharity(data1, data2, data3, data4, data5, i) ){
 			String name = data1[i][2];
 			String desc = data4[i][2];
 			String BN = data1[i][0];
 			String land = data1[i][4];
 			String home = data1[i][3];
-			String[] opcy = new String[] { data2[i][1], data2[i][3], data2[i][5] };
+			String opcy = data6[i][1];
 			String[] deta = new String[] { data2[i][2], data2[i][4], data2[i][6], };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
 			String[] misc = new String[] { data1[i][2], data3[i][2], data2[i][7], data2[i][8], data3[i][1], data3[i][2],
 					data3[i][3] };
 			export[i] = new Charity(name, desc, BN, land, home, opcy, deta, misc, fstat);
-
-			// System.out.println(export[i]);
-
-			// }
 		}
 
 		double end = stopwatch.elapsedTime();
@@ -97,6 +90,10 @@ public class DataPacker {
 	
 	protected Charity[] getData() {
 		return export;
+	}
+	
+	protected String[][] getNames() {
+		return names;
 	}
 
 }

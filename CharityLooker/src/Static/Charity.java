@@ -15,7 +15,7 @@ public class Charity implements Comparable<Charity>{
 	private String   bnum; //business number/ ID
 	private String   land; //parent country
 	private String   home; //'hometown'/ where HQ is
-	private String[] oper; //operating countries
+	private String oper; //operating countries
 	private String[] prog; //current programs
 	private int[] stat; //financial statistics
 	private String[] misc; //misc statistics
@@ -26,13 +26,13 @@ public class Charity implements Comparable<Charity>{
 		this.bnum="00000";
 		this.land="Nowhere";
 		this.home="Nowhere";
-		this.oper=new String[] {"Nowhere"};
+		this.oper="Nowhere";
 		this.prog=new String[] {"Nothing"};
 		this.misc=new String[] {"Nothing"};
 		this.stat=new int[] {0};
 	}
 	
-	public Charity(String name, String description, String ID, String pcountry, String hometown, String[] ocountry, String[] programs, String[] services, String[] financial){
+	public Charity(String name, String description, String ID, String pcountry, String hometown, String ocountry, String[] programs, String[] services, String[] financial){
 		this.name=name.replace("\"", "");
 		this.desc=description;
 		this.bnum=ID;
@@ -70,14 +70,10 @@ public class Charity implements Comparable<Charity>{
 		}else if (property.compareTo("home")==0){
 			return(this.home.compareTo(o.getHome()));
 		}else if (property.compareTo("oper")==0){ //used to determine if they share a operating location
-			for (int i=0; i<this.oper.length; i++){
-				for (int j=0; j<o.getOland().length; j++){
-					if (this.oper[i]==o.getOland(j)){
-						return(1); //yes, they share a country
-					}
-				}
-			}
-			return(0); //no they dont
+			if (getOland().equals(o.getOland()))
+				return 1;
+			else
+				return 0;
 		}else if (property.compareTo("prog")==0){ //who has more programs
 			return( (this.prog.length > o.getProg().length) ? 1 : -1 );
 		}else if (property.compareTo("serv")==0){ //who has more services
@@ -146,14 +142,8 @@ public class Charity implements Comparable<Charity>{
 		return (this.home);
 	}
 	
-	public void setOland(String[] s){
-		this.oper=s;
-	}
-	public String[] getOland(){
-		return (this.oper);
-	}
-	public String getOland(int i){
-		return (this.oper[i]);
+	public String getOland(){
+		return oper;
 	}
 	
 	public void setProg(String[] s){
