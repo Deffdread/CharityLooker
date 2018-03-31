@@ -1,6 +1,7 @@
 package Static;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class DataPacker {
 	
@@ -12,7 +13,7 @@ public class DataPacker {
 		System.out.println("=====");
 
 		double begin = stopwatch.elapsedTime();
-
+		
 		String[] nameHeader = new String[] { "BN", "Legal Name" };
 		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
 		
@@ -62,25 +63,24 @@ public class DataPacker {
 		String[] header5 = new String[] { "BN", "4700", "5100", "4200", "4350", "4250", "4100", "4140" };
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
 		
-		String[] header6 = new String[] { "BN", "Country" };
+		String[] header6 = new String[] { "BN", "Country", "#" };
 		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_OperatingCountry.csv", header6);
 
 		export = new Charity[data1.length];
 
 		// If statement does not work properly
+		System.out.println(1);
+		int j = 0;
 		for (int i = 0; i < export.length; i++) {
 			String name = data1[i][2];
 			String desc = data4[i][2];
 			String BN = data1[i][0];
 			String land = data1[i][4];
 			String home = data1[i][3];
-			String opcy = "";
-			try{
-				for (int j=0; j<data6.length; j++)
-					if (data6[i][0].equals(data1[j][0]))
-						opcy = data6[j][1];
-			}catch (Exception e){
-				opcy = "Canada"; // data6[i][1];
+			String opcy = "CA";
+			while(j != data6.length && data6[j][0].equals(data1[i][0])){
+				opcy += data6[j][1] + ",";
+				j++;
 			}
 			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
@@ -92,7 +92,7 @@ public class DataPacker {
 
 		double end = stopwatch.elapsedTime();
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
-
+		
 	}
 	
 	protected Charity[] getData() {

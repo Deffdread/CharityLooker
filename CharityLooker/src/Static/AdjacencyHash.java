@@ -19,19 +19,10 @@ public class AdjacencyHash {
 			this.vals = new ArrayList<LinkedList<Charity>>();
 			while(i != this.m)
 				{
-					System.out.println(i);
 					LinkedList<Charity> list = new LinkedList<Charity>();
 				    this.vals.add(list);
 				    i++;
 				}
-		}
-		
-		public int numOfCities() {
-			return this.m;
-		}
-		
-		public String[] citynames() {
-			return this.keys;
 		}
 
 		private int hash(String key) {
@@ -44,10 +35,10 @@ public class AdjacencyHash {
 
 		public void put(String key, Charity val) throws IOException {
 			if (key == null)
-				throw new IllegalArgumentException("first argument to put() is null");
+				return;
 			if (this.n >= this.m / 2)
 				resize(2 * m);
-			System.out.println(hash(key) + " " + key);
+			//System.out.println(hash(key) + " " + key);
 			int i;
 			for (i = hash(key); this.keys[i] != null; i = (i + 1) % m) {
 				if (this.keys[i].equals(key)) {
