@@ -17,8 +17,7 @@ public class AdjacencyHash {
 			this.n = 0;
 			int i = 0;
 			this.vals = new ArrayList<LinkedList<Charity>>();
-			while(i != this.m)
-				{
+			while(i != this.m) {
 					LinkedList<Charity> list = new LinkedList<Charity>();
 				    this.vals.add(list);
 				    i++;
@@ -41,7 +40,7 @@ public class AdjacencyHash {
 			//System.out.println(hash(key) + " " + key);
 			int i;
 			for (i = hash(key); this.keys[i] != null; i = (i + 1) % m) {
-				if (this.keys[i].equals(key)) {
+				if (this.keys[i].equals(key)){ // && !this.vals.get(i).contains(val)) {
 					this.vals.get(i).add(val);
 					return;
 				}

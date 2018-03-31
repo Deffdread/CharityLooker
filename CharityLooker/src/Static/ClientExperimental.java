@@ -2,7 +2,6 @@ package Static;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -26,6 +25,7 @@ public class ClientExperimental {
 			for (int j = 0; j < charities[i].getProg().length; j++) {
 				hashProg.put(charities[i].getProg()[j], charities[i]);
 			}
+
 			String[] opcountry = charities[i].getOland().split(",");
 			for (int k = 0; k < opcountry.length; k++) {
 				hashOper.put(opcountry[k], charities[i]);
