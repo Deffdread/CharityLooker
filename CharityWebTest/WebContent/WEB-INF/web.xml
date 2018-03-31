@@ -24,13 +24,24 @@
   
   
   <servlet>     
-  	<servlet-name>Console</servlet-name>     
-  	<servlet-class> web.Controller    </servlet-class> 	
+  	<servlet-name>Home</servlet-name>     
+  	<servlet-class> web.Controller</servlet-class> 	
   </servlet>
 
   <servlet-mapping>    
-  	 <servlet-name>Console</servlet-name>     
-  	 <url-pattern>/Console.do</url-pattern> 
+  	 <servlet-name>Home</servlet-name>     
+  	 <url-pattern>/Controller.java</url-pattern> 
+  </servlet-mapping>  
+     
+     
+      <servlet>     
+  	<servlet-name>searchName</servlet-name>     
+  	<servlet-class> web.searchName </servlet-class> 	
+  </servlet>
+
+  <servlet-mapping>    
+  	 <servlet-name>searchName</servlet-name>     
+  	 <url-pattern>/searchName.do</url-pattern> 
   </servlet-mapping>  
      
   

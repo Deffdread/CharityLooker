@@ -6,23 +6,23 @@
 	</head>
 <body> 
 <h1>Welcome to CharityLooker!</h1>
-
-
-
-
-<form method="POST" action="Console.do">
-  <fieldset>
-  	Enter Console Command:<br>
-  	Press "Submit" button or press "Enter" on keyboard to enter commands <br> 
-  	<input type="text" name="command">
-  	<br>
-  	<br>
-    <input type="submit" value="Submit">
-  </fieldset>
-</form>
-
-
-<br>
-
+1. Search by Name <br>
+2. Search by Business Number <br>
+3. List all charities <br>
+<form method="POST" action="Controller.java">       
+	Select an option:<p>       
+	Commands:       
+	<select name="input" size="1">        
+ 		<option>1</option>         
+ 		<option>2</option>         
+ 		<option>3</option>               
+ 	</select>       
+ 	<br>       
+ 	<br>       
+ 	<center>         
+ 		<input type="SUBMIT">      
+  	</center>     
+ </form>
+ 
 </body>
 </html>

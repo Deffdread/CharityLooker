@@ -37,15 +37,8 @@ public class ClientExperimental {
 		
 		}
 	
-		//Checking Charities
-		LinkedList<Charity> charity = hashProg.get("I1");
-		for (int i = 0; i < charity.size(); i++) {
-			System.out.println(charity.get(i));
-		}
-				
-		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
-		String choice = "";
-		Scanner inputStr = new Scanner(System.in);
+		//
+			
 		Locale language = new Locale("English");
 		FuzzyScore fs = new FuzzyScore(language);
 								
@@ -119,18 +112,13 @@ public class ClientExperimental {
 	
 	
 	
-	public static List all() {
-		
-		List allCharities = new ArrayList();
-		for(int i = 0; i < charities.length; i++) {
-			allCharities.add(charities[i]);
-		}
-		return allCharities;
+	public static Charity[] getAll() {
+		return charities;
 	}
 	
 	
-	
-	public static Charity name(String in) {
+	//Returns a single charity
+	public static Charity getName(String in) {
 		in = in.toUpperCase();
 		current = hashName.get(in);
 		if (current==null){
@@ -147,7 +135,9 @@ public class ClientExperimental {
 		
 	}
 	
-	public static Charity bnum(String in) {
+	
+	//Returns a single charity
+	public static Charity getBnum(String in) {
 		in = in.toUpperCase();
 		current = hashBnum.get(in);
 		if (current==null){
@@ -160,6 +150,7 @@ public class ClientExperimental {
 		else {
 			return current;
 		}
+		
 		
 	}
 	
