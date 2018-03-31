@@ -79,7 +79,7 @@ public class DataPacker {
 			String home = data1[i][3];
 			String opcy = "CA";
 			while(j != data6.length && data6[j][0].equals(data1[i][0])){
-				opcy += data6[j][1] + ",";
+				opcy += "," + data6[j][1];
 				j++;
 			}
 			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], };
