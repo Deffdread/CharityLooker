@@ -2,7 +2,6 @@ package Static;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -18,7 +17,11 @@ public class ClientExperimental {
 		
 		LinearProbing hashBnum = new LinearProbing(charities.length);
 		LinearProbing hashName = new LinearProbing(charities.length);
+		
+		/*System.out.println("started");
 		AdjacencyHash hashProg = new AdjacencyHash(16);
+		System.out.println("ended");
+		
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
 			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
@@ -27,13 +30,14 @@ public class ClientExperimental {
 			}
 		
 		}
+		
+		/*System.out.println("started2");
 		LinkedList<Charity> charity = hashProg.get("I1");
 		for (int i = 0; i < charity.size(); i++) {
 			System.out.println(charity.get(i));
 		}
+		System.out.println("ended2");*/
 		
-		//for (int i=0; i<100; i++)
-		//	System.out.println(DP.getData()[i]);
 		
 		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
 		String choice = "";
