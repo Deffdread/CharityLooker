@@ -69,7 +69,6 @@ public class DataPacker {
 		export = new Charity[data1.length];
 
 		// If statement does not work properly
-		System.out.println(1);
 		int j = 0;
 		for (int i = 0; i < export.length; i++) {
 			String name = data1[i][2];

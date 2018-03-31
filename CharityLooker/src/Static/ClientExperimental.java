@@ -22,7 +22,12 @@ public class ClientExperimental {
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
 			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
-			for (int j = 0; j < charities[i].getProg().length; j++) {
+			String prev = "";
+			String prev2 = "";
+			for (int j = 0; j < charities[i].getProg().length && !charities[i].getProg()[j].equals(prev) && !charities[i].getProg()[j].equals(prev2); j++) {
+				if (j == 1)
+					prev2 = prev;
+				prev = charities[i].getProg()[j];
 				hashProg.put(charities[i].getProg()[j], charities[i]);
 			}
 
@@ -31,12 +36,12 @@ public class ClientExperimental {
 				hashOper.put(opcountry[k], charities[i]);
 			}
 		}
-//			for (int j = 0; j < hashProg.get("I1").size(); j++) {
-//				System.out.println(hashProg.get("I1").get(j));
-//			}
-			for (int j = 0; j < hashOper.get("RU").size(); j++) {
-				System.out.println(hashOper.get("RU").get(j));
+			for (int j = 0; j < hashProg.get("I1").size(); j++) {
+				System.out.println(hashProg.get("I1").get(j));
 			}
+			//for (int j = 0; j < hashOper.get("RU").size(); j++) {
+				//System.out.println(hashOper.get("RU").get(j));
+			//}
 		
 //			for (int k=0; k<100; k++) {
 //				String[] opcountry2 = charities[k].getOland().split(",");
