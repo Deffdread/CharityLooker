@@ -31,8 +31,10 @@ public class DataPacker {
 		 * #1 - Program Area #1 Percentage Program #2,3 (Code) - Same as above 1600 - Is
 		 * charity private 2400 - Has the charity carried any political activities
 		 */
-		String[] header2 = new String[] { "BN", "Program #1 Code", "Program #1", "Program #2 Code", "Program #2",
-				"Program #3 Code", "Program #3", "1600", "2400" };
+		
+		String[] header2 = new String[] { "BN", "Program #1 Code", "Program #1",
+				"Program #2 Code", "Program #2", "Program #3 Code", "Program #3",
+				"1600", "2400", "Program #1 Desc (Eng)", "Program #2 Desc (Eng)", "Program #3 Desc (Eng)"};
 		String[][] data2 = FileInterpreter.getDataFromFile("data/Charity_GeneralInfo.csv", header2);
 
 		// Compensation
@@ -82,7 +84,7 @@ public class DataPacker {
 			}catch (Exception e){
 				opcy = "Canada"; // data6[i][1];
 			}
-			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], };
+			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], data2[i][9],data2[i][10],data2[i][11] };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
 			String[] misc = new String[] { data1[i][2], data3[i][2], data2[i][7], data2[i][8], data3[i][1], data3[i][2],
