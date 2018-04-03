@@ -1,7 +1,6 @@
 package Static;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 public class DataPacker {
 	
@@ -86,8 +85,15 @@ public class DataPacker {
 			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], data2[i][9],data2[i][10],data2[i][11] };
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
-			String[] misc = new String[] { data1[i][2], data3[i][2], data2[i][7], data2[i][8], data3[i][1], data3[i][2],
-					data3[i][3] };
+			
+			if (data3[i][1]=="")
+				data3[i][1]="0";
+			if (data3[i][2]=="")
+				data3[i][2]="0";
+			if (data3[i][3]=="")
+				data3[i][3]="0";
+			
+			String[] misc = new String[] { data1[i][1], data3[i][1], data3[i][2], data3[i][3], data2[i][7], data2[i][8] };
 			export[i] = new Charity(name, desc, BN, land, home, opcy, deta, misc, fstat);
 		}
 

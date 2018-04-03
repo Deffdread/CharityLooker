@@ -32,7 +32,7 @@ public class ClientExperimental {
 		/*System.out.println("started2");
 		LinkedList<Charity> charity = hashProg.get("I1");
 		for (int i = 0; i < charity.size(); i++) {
-			System.out.println(charity.get(i));*/
+			System.out.println(charity.get(i));
 		AdjacencyHash hashOper = new AdjacencyHash(16);
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
@@ -64,17 +64,16 @@ public class ClientExperimental {
 //					System.out.println(opcountry2[j]);
 //				}
 		//for (int i=0; i<100; i++)
-			//System.out.println(DP.getData()[i]);
+			//System.out.println(DP.getData()[i]);*/
 		
 		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
 		String choice = "";
 		Scanner inputStr = new Scanner(System.in);
-		Locale language = new Locale("English");
-		FuzzyScore fs = new FuzzyScore(language);
 		
 		Charity current = null;
 		boolean hold = false;
 		boolean nullCur=false;
+		String mode = "0";
 		do {
 			if (!hold){
 				current = null;
@@ -83,6 +82,7 @@ public class ClientExperimental {
 			}
 			hold=false;
 			nullCur=false;
+			mode=choice;
 			
 			if (choice.equals("1")){ //search by name
 				System.out.print("Please enter the name of the charity:\n>");
@@ -109,41 +109,19 @@ public class ClientExperimental {
 			}
 			
 			if (nullCur==true){
-				String lookFor=choice;
+				String lookFor=mode;
 				
-				ArrayList<int[]> closeL = new ArrayList<int[]>();
+				int[][] indexArr = findSimilarIndex(lookFor,choice,DP.getNames());
 				
-				int max = fs.fuzzyScore(choice,choice.toUpperCase());
-				int cutOff = (int) (max*.55);
-				int score = 0;
-				for (int cur=0; cur<DP.getNames().length; cur++){
+				System.out.println("("+indexArr.length+" return(s): Currently sorting for \""+choice+"\")");
+				
+				for (int i = 0; i < indexArr.length; i++){
 					if (lookFor.equals("1"))
-						score = fs.fuzzyScore(choice,DP.getNames()[cur][1].toUpperCase());
+						System.out.println(DP.getNames()[indexArr[i][0]][1]);
 					else if (lookFor.equals("2"))
-						score = fs.fuzzyScore(choice,DP.getNames()[cur][0].toUpperCase());
-					if (score>=cutOff){
-						closeL.add(new int[] {cur,score});
-					}
-				}
-				int[][] close =closeL.toArray(new int[0][0]);
-				
-				for (int i=0; i<close.length-1; i++){
-					for (int j=0; j<close.length-1; j++){
-						if (close[i][1]<close[j][1]){
-							int[] temp = close[i];
-							close[i]=close[j];
-							close[j]=temp;
-						}
-					}
-				}
-				for (int i = 0; i < close.length; i++){
-					if (lookFor.equals("1"))
-						System.out.println(DP.getNames()[close[i][0]][1]);
-					else if (lookFor.equals("2"))
-						System.out.println(charities[i].getBnum()+" - "+charities[i].getName());
+						System.out.println(charities[indexArr[i][0]].getBnum()+" - "+charities[indexArr[i][0]].getName());
 					
 				}
-				System.out.println("("+close.length+" return(s))");
 				
 				System.out.print("Would you like to try again?\n1. Yes\n2. No\n>");
 				choice = inputStr.nextLine();
@@ -170,7 +148,10 @@ public class ClientExperimental {
 							System.out.println("Home country: "+current.getHland());
 							System.out.println("HQ location: "+current.getHome());
 						}else if (choice.equals("2")){
-							System.out.println("Operating country: "+current.getOland());
+							if (current.getOland().equals(""))
+								System.out.println("Operating country: Canada");
+							else
+								System.out.println("Operating country: "+current.getOland());
 						}else if (choice.equals("3")){
 							for (int i=0; i<current.getProg().length/2; i++){
 								if (!current.getProg(i).equals(""))
@@ -192,7 +173,19 @@ public class ClientExperimental {
 							System.out.println("Cash and short term investment: "+current.getStats(5));
 							System.out.println("Long term investment: "+current.getStats(6));
 						}else if (choice.equals("3")){
-							System.out.println("Is the charity privately owned: "+current.getServ(7));
+							System.out.println("Is the charity privately owned: "+current.getServ(4));
+						}
+					}else if (choice.equals("4")){
+						System.out.print("Would you like to see:\n1. Charity category\n2. Employment information\n3. Political Activity\n>");
+						choice = inputStr.nextLine();
+						if (choice.equals("1")){ //0
+							System.out.println("Charity category: "+current.getServ(0));
+						}else if (choice.equals("2")){ //1,2,3
+							System.out.println("Number of full time positions: "+current.getServ(1));
+							System.out.println("Number of part time positions: "+current.getServ(2));
+							System.out.println("Expenditure on positions: $"+current.getServ(3));
+						}else if (choice.equals("3")){ //5
+							System.out.println("Ran political campaign: "+current.getServ(5));
 						}
 					}
 					
@@ -202,41 +195,58 @@ public class ClientExperimental {
 			
 		}while(!choice.contentEquals("9"));
 		inputStr.close();
-		
-	
-					
-		/*			for (int cur=0; cur<DataPacker.names.length; cur++){
-						if (fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase())>=cutOff){
-							System.out.println(DataPacker.names[cur][0]);
-							System.out.println(fs.fuzzyScore(l.toUpperCase(),DataPacker.names[cur][0].toUpperCase()));
-						}
-					}
-					
-				}else
-					System.out.println(j);
-				//TODO: ask to show charity data and stats
-			}
-			
-			else if (i.equals("2")) {
-				System.out.println("What is the buisness number of desired charity\n>");
-				Scanner input3 = new Scanner(System.in);
-				String h = input3.next();
-				String k = hashBnum.get(h);
-				if (k == null)
-					System.out.println("The number has either been misspelled or the charity is currently not covered");
-				else
-					System.out.println(k);
-				//TODO: ask to show charity data and stats
-			}
-			else {
-				System.out.println("Invalid Input");
-			}
-			
-			System.out.println("Press 1 to continue:\n>");
-			Scanner input4 = new Scanner(System.in);
-			g = input4.nextLine();
-		}while (g.equals("1"));*/
 	}
+	
+	private static Charity getCharity(String choice, LinearProbing hashTable){ //For Jason T
+		Charity current = hashTable.get(choice.toUpperCase());
+		return current;
+	}
+	
+	private static int[][] findSimilarIndex(String mode,String base,String[][] charityNames){
+		ArrayList<int[]> closeL = new ArrayList<int[]>();
+		Locale language = new Locale("English");
+		FuzzyScore fs = new FuzzyScore(language);
+		
+		double factor=0;
+		if (mode.equals("1"))
+			factor=0.6;
+		else if (mode.equals("2"))
+			factor=0.7;
+		
+		int max = fs.fuzzyScore(base,base);
+		int cutOff = (int) (max*factor);
+		int score = 0;
+		
+		
+		for (int cur=0; cur<charityNames.length; cur++){
+			if (mode.equals("1"))
+				score = fs.fuzzyScore(base,charityNames[cur][1].toUpperCase());
+			else if (mode.equals("2"))
+				score = fs.fuzzyScore(base,charityNames[cur][0].toUpperCase());
+			if (score>=cutOff){
+				System.out.println(base+"|"+charityNames[cur][0].toUpperCase());
+				closeL.add(new int[] {cur,score});
+			}
+		}
+		int[][] close =closeL.toArray(new int[0][0]);
+		
+		sortSimilar(close);
+		
+		return close;
+	}
+	
+	private static void sortSimilar(int[][] close){
+		for (int i=0; i<close.length-1; i++){
+			for (int j=0; j<close.length-1; j++){
+				if (close[i][1]<close[j][1]){
+					int[] temp = close[i];
+					close[i]=close[j];
+					close[j]=temp;
+				}
+			}
+		}
+	}
+	
 }
 
 
