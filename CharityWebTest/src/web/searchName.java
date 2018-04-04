@@ -6,7 +6,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.ClientExperimental;
 import javax.servlet.*; 
 import javax.servlet.http.*;
 import model.*;
@@ -18,8 +17,9 @@ public class searchName extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		
-		String c = request.getParameter("name"); 
-		ClientExperimental client = new ClientExperimental();         
+		String c = request.getParameter("name");
+		c = c.toUpperCase();
+		Return client = new Return();         
 		Charity result = client.getName(c); 
 		request.setAttribute("styles", result); 
 		RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 
