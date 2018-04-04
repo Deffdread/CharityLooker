@@ -27,7 +27,6 @@
   	<servlet-name>Home</servlet-name>     
   	<servlet-class> web.Controller</servlet-class> 	
   </servlet>
-
   <servlet-mapping>    
   	 <servlet-name>Home</servlet-name>     
   	 <url-pattern>/Controller.java</url-pattern> 
@@ -38,11 +37,32 @@
   	<servlet-name>searchName</servlet-name>     
   	<servlet-class> web.searchName </servlet-class> 	
   </servlet>
-
   <servlet-mapping>    
   	 <servlet-name>searchName</servlet-name>     
   	 <url-pattern>/searchName.do</url-pattern> 
   </servlet-mapping>  
+  
+        <servlet>     
+  	<servlet-name>searchBnum</servlet-name>     
+  	<servlet-class> web.searchBnum</servlet-class> 	
+  </servlet>
+  <servlet-mapping>    
+  	 <servlet-name>searchBnum</servlet-name>     
+  	 <url-pattern>/searchBnum.do</url-pattern> 
+  </servlet-mapping>  
      
+     
+             <servlet>     
+  	<servlet-name>searchAll</servlet-name>     
+  	<servlet-class> web.searchAll</servlet-class> 	
+  </servlet>
+  <servlet-mapping>    
+  	 <servlet-name>searchAll</servlet-name>     
+  	 <url-pattern>/searchAll.do</url-pattern> 
+  </servlet-mapping>  
+     
+     
+     
+  
   
 </web-app>

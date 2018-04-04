@@ -30,7 +30,7 @@ public class Controller extends HttpServlet {
 	    	response.sendRedirect("searchBnum.jsp");
 	    }
 	    else if(command == 3) {
-	    	response.sendRedirect("searchAll.java");
+	    	response.sendRedirect("searchAll.jsp");
 	    }
 	    else {
 	    	response.sendRedirect("Home.html");    

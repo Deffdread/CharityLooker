@@ -17,8 +17,8 @@ import java.util.*;
 public class searchAll extends HttpServlet { 
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
-		
-		ClientExperimental client = new ClientExperimental();         
+		String c = request.getParameter("All");
+		Return client = new Return();         
 		Charity[] result = client.getAll(); 
 		request.setAttribute("styles", result); 
 		RequestDispatcher view = request.getRequestDispatcher("OutputAll.jsp"); 

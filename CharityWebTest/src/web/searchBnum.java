@@ -18,8 +18,9 @@ public class searchBnum extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		
-		String c = request.getParameter("Bnum"); 
-		ClientExperimental client = new ClientExperimental();         
+		String c = request.getParameter("Bnum");
+		c = c.toUpperCase();
+		Return client = new Return();         
 		Charity result = client.getBnum(c); 
 		request.setAttribute("styles", result); 
 		RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 

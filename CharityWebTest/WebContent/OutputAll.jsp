@@ -10,15 +10,22 @@
 
 <h2>
 Today's date is <%= d.toString() %>. Welcome to CharityLooker.
-</h2>>
+</h2>
 <p> 
 <%  
 Charity output[] = (Charity[])request.getAttribute("styles"); 
 for(int i =0; i < output.length; i++)
 {
-	out.print(output[i]);
+	out.print(i+".  "+output[i].getName()+"  |  "+output[i].getBnum());
+	out.print("<br>");
 }
 
 %> 
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="Home.html">Return to home page</a>
 </body> 
 </html> 
