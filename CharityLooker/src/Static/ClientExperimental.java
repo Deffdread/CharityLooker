@@ -224,7 +224,6 @@ public class ClientExperimental {
 			else if (mode.equals("2"))
 				score = fs.fuzzyScore(base,charityNames[cur][0].toUpperCase());
 			if (score>=cutOff){
-				System.out.println(base+"|"+charityNames[cur][0].toUpperCase());
 				closeL.add(new int[] {cur,score});
 			}
 		}
