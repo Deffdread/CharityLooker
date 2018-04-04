@@ -161,7 +161,7 @@ public class ClientExperimental {
 							System.out.println("Invalid input");
 						}
 					}else if (choice.equals("3")){
-						System.out.print("Would you like to see:\n1. Accounting information\n2. Cash and Investment amounts\n3. Private ownership (not working)\n>");
+						System.out.print("Would you like to see:\n1. Accounting information\n2. Cash and Investment amounts\n3. Private ownership\n>");
 						choice = inputStr.nextLine();
 						if (choice.equals("1")){
 							System.out.println("Total revenue: $"+current.getStats(0));
@@ -248,5 +248,4 @@ public class ClientExperimental {
 	}
 	
 }
-
 
