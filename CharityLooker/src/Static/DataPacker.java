@@ -6,7 +6,7 @@ public class DataPacker {
 	
 	private Charity[] export;
 	private String[][] names;
-
+	private String[][] progref;
 	public DataPacker() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
 		System.out.println("=====");
@@ -66,7 +66,11 @@ public class DataPacker {
 		
 		String[] header6 = new String[] { "BN", "Country", "#" };
 		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_OperatingCountry.csv", header6);
-
+		
+		String[] header7 = new String[] { "Program Code", "Program Desc" };
+		String[][] data7 = FileInterpreter.getDataFromFile("data/Charity_ProgRefer.csv", header7);
+		
+		progref = data7;
 		export = new Charity[data1.length];
 
 		// If statement does not work properly
@@ -104,6 +108,10 @@ public class DataPacker {
 	
 	protected Charity[] getData() {
 		return export;
+	}
+	
+	protected String[][] getProgRef(){
+		return progref;
 	}
 	
 	protected String[][] getNames() {

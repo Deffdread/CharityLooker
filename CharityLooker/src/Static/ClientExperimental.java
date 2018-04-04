@@ -2,13 +2,13 @@ package Static;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class ClientExperimental {
 
-	public static void main(String[] args) throws IOException {
-		
+	public static void main(String[] args) throws IOException {	
 		DataPacker DP = new DataPacker();
 		
 		Charity[] charities = DP.getData();
@@ -20,20 +20,19 @@ public class ClientExperimental {
 		AdjacencyHash hashProg = new AdjacencyHash(16);
 		//System.out.println("ended");
 		
-		for (int i = 0; i < charities.length; i++) {
-			hashBnum.put(charities[i].getBnum(), charities[i]);
-			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
-			/*for (int j = 0; j < charities[i].getProg().length; j++) {
-				hashProg.put(charities[i].getProg()[j], charities[i]);
-			}*/
-		
-		}
-		
 		/*System.out.println("started2");
-		LinkedList<Charity> charity = hashProg.get("I1");
-		for (int i = 0; i < charity.size(); i++) {
-			System.out.println(charity.get(i));
+		LinkedList<Charity> charity = hashProg.get("I1");*/
+		/*for (int i = 0; i < charity.size(); i++) {
+			System.out.println(charity.get(i));*/
 		AdjacencyHash hashOper = new AdjacencyHash(16);
+		
+		/* To create the adjacency list you enter the program code are the keys of the hash table and the charities
+		 * are the values in the hash table to take from the hash table you would type hashProg.get(0) and it would be the
+		 * first charity that corresponded to the key value that you entered all the way up to hashProg.size() - 1
+		 * to create the hash table you would just do the same thing as if it were a normal linearprobing as I do
+		 * have a resize method.
+		 */
+		
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
 			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
@@ -51,9 +50,9 @@ public class ClientExperimental {
 				hashOper.put(opcountry[k], charities[i]);
 			}
 		}
-			for (int j = 0; j < hashProg.get("I1").size(); j++) {
-				System.out.println(hashProg.get("I1").get(j));
-			}
+			//for (int j = 0; j < hashProg.get("I1").size(); j++) {
+				//System.out.println(hashProg.get("I1").get(j));
+			//}
 			//for (int j = 0; j < hashOper.get("RU").size(); j++) {
 				//System.out.println(hashOper.get("RU").get(j));
 			//}
@@ -71,13 +70,15 @@ public class ClientExperimental {
 		Scanner inputStr = new Scanner(System.in);
 		
 		Charity current = null;
+		int times = 0;
+		LinkedList<Charity> current2 = null;
 		boolean hold = false;
 		boolean nullCur=false;
 		String mode = "0";
 		do {
 			if (!hold){
 				current = null;
-				System.out.print("Would you like to:\n1. Search by name\n2. Search by business number\n9. Quit\n>");
+				System.out.print("Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n4. Search by operating country\n9. Quit\n>");
 				choice = inputStr.nextLine();
 			}
 			hold=false;
@@ -102,6 +103,77 @@ public class ClientExperimental {
 					nullCur=true;
 				}
 				
+//			}else if (choice.equals("3")){ //search by business number
+//				System.out.print("Please enter the business number of the charity:\n>");
+//				choice = inputStr.nextLine().toUpperCase();
+//				current = hashBnum.get(choice);
+//				if (current==null){
+//					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+//					nullCur=true;
+//				}
+//			}else if (choice.equals("4")){ //search by business number
+//				do
+//				{
+//				times++;
+//				System.out.print("Please enter a charitable cause:\n>");
+//				String[][] progref = DP.getProgRef();
+//				choice = inputStr.nextLine().toUpperCase();
+//				String cleanchoice = choice.replaceAll("/[^A-Za-z0-9]/", ",");
+//				String[] choices = cleanchoice.split(",");
+//				int j = 0;
+//				int count = 0;
+//				int[] counts = new int[] {0, 0, 0, 0, 0};
+//				String[][] options = new String[][] {{null, null}, {null, null}, {null, null}, {null,null}, {null, null}};
+//				for (int i = 0; i < progref.length; i++) {
+//					count = 0;
+//					j = 0;
+//					while(j < choices.length && choices[j].length() > 3 && progref[i][1].toUpperCase().contains(choices[j])) {
+//						count++;
+//						j++;
+//					}
+//					int k = counts.length - 1;
+//					while(k >= 0 && count > counts[k]) {
+//						if(k == counts.length - 1) {
+//							System.out.println(progref[i][1]);
+//							options[counts.length - 1][1] = progref[i][1];
+//							options[counts.length - 1][0] = progref[i][0];
+//							k--;
+//						}
+//						else{
+//							options[k+1][0] = options[k][0];
+//							options[k][0] = progref[i][1];
+//							options[k+1][1] = progref[k][0];
+//							options[k][1] = progref[i][0];
+//							k--;
+//						}
+//					}
+//				}
+//						System.out.println("Select a Program using the corresponding numbers:");
+//						for (int k2 = 0; k2 < options.length; k2++) {
+//							if (options[k2][0] != null)
+//								System.out.println((k2 + 1) + ". " + options[k2][0]);
+//						}
+//						inputStr = new Scanner(System.in);
+//						String number = inputStr.nextLine();
+//						int index = Integer.parseInt(number);
+//						current2 = hashProg.get(options[index][1]);
+//						for (int i = 0; i < current2.size(); i++) {
+//							System.out.println(current2.get(i));
+//						}
+//						System.out.println("Would you like to:\n1. Search by Operating country\n2. Search by Charity name\n3. Search by program again (up to \" + (3 - times) + \" more times)");
+//						if (times == 3) {
+//							System.out.println("Would you like to:\n1. Search by Operating country\n2. Search by Charity name");
+//						}
+//						inputStr = new Scanner(System.in);
+//						choice = inputStr.nextLine();
+//			}while(choice == "3");
+//		}
+//	}while(true);
+//	}
+//				if (current==null){
+//					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+//					nullCur=true;
+//				}
 			}else if (choice.equals("9")){
 				System.out.println("Exiting now...");
 			}else{
