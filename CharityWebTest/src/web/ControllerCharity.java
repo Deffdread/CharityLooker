@@ -8,9 +8,16 @@ import model.*;
 import java.io.*; 
 import java.util.*;
 
-
+/**
+ * Controller for viewing charity information
+ * @author Jason Tsui, 400073151
+ *
+ */
 public class ControllerCharity extends HttpServlet { 
 	
+	/**
+	 * Directs user input
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException { 
 		
 		PrintWriter writer = response.getWriter();

@@ -13,9 +13,16 @@ import model.*;
 import java.io.*; 
 import java.util.*;
 
-
+/**
+ * Servlet for searching all names
+ * @author Jason Tsui, 400073151
+ *
+ */
 public class searchAll extends HttpServlet { 
 	
+	/**
+	 * Takes user input, selects charity
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		String c = request.getParameter("All");
 		Return client = new Return();         

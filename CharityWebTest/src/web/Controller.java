@@ -8,9 +8,16 @@ import model.*;
 import java.io.*; 
 import java.util.*;
 
-
+/**
+ * Controller for home page
+ * @author Jason Tsui, 400073151
+ *
+ */
 public class Controller extends HttpServlet { 
 	
+	/**
+	 * Directs user input
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		PrintWriter writer = response.getWriter();
 		writer.println("<html>");

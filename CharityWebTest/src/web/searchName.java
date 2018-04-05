@@ -12,9 +12,16 @@ import model.*;
 import java.io.*; 
 import java.util.*;
 
-
+/**
+ * Servlet for searching a charity name
+ * @author Jason Tsui, 400073151
+ *
+ */
 public class searchName extends HttpServlet { 
 	
+	/**
+	 * Takes user input, selects charity and directs to Output.jsp
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		
 		String c = request.getParameter("name");
