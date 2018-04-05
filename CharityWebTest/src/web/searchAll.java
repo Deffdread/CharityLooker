@@ -21,7 +21,7 @@ import java.util.*;
 public class searchAll extends HttpServlet { 
 	
 	/**
-	 * Takes user input, selects charity
+	 * Receives an array of all charities directs to OutputAll.jsp
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)	throws IOException, ServletException {  
 		String c = request.getParameter("All");
