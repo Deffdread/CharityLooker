@@ -1,13 +1,11 @@
 package Static;
 
-import java.util.Comparator;
-
 /**
- * 
+ * A charity ADT that contains all relevant data to one particular charity
  * 
  * @author Jason Nagy, 400055130
  * @since February 26/18
- * @version 1.0
+ * @version 12.0
  */
 public class Charity implements Comparable<Charity>{
 	private String   name; //name of charity
@@ -20,6 +18,9 @@ public class Charity implements Comparable<Charity>{
 	private int[] stat; //financial statistics
 	private String[] misc; //misc statistics
 	
+	/**
+	 * Blank, default constructor.
+	 */
 	public Charity(){ //Catch "Void" charity
 		this.name="Empty";
 		this.desc="Void";
@@ -32,6 +33,19 @@ public class Charity implements Comparable<Charity>{
 		this.stat=new int[] {0};
 	}
 	
+	/**
+	 * A constructor to create a new charity object.
+	 * 
+	 * @param name The name of the charity
+	 * @param description The charity description
+	 * @param ID The business number. Is unique
+	 * @param pcountry The home country of the charity
+	 * @param hometown The HQ location of the charity
+	 * @param ocountry The operating country
+	 * @param programs An array of programs that the charity partakes in
+	 * @param services An array containing miscellaneous data
+	 * @param financial An array containing financial information
+	 */
 	public Charity(String name, String description, String ID, String pcountry, String hometown, String ocountry, String[] programs, String[] services, String[] financial){
 		this.name=name.replace("\"", "");
 		this.desc=description;
@@ -58,6 +72,14 @@ public class Charity implements Comparable<Charity>{
 	 * s1 < s2  :negative value
 	 */
 	
+	
+	/**
+	 * A versitile method that compares charities based on some criteria.
+	 * 
+	 * @param o The charity to compare with
+	 * @param property The property to compare the two charities by
+	 * @return Returns 1 if this charity would be ranked first, -1 if the other charity would be ranked first or 0 if they are "equal"
+	 */
 	public int compareTo(Charity o, String property){
 		if (property.compareTo("name")==0){
 			return(this.name.compareTo(o.getName()));
@@ -84,12 +106,13 @@ public class Charity implements Comparable<Charity>{
 		}
 	}
 	
-	public int similarTo(Charity o, String property){
-		//TODO: function to determine similarity between 2 charities for graph
-		System.out.println("Not Implemented");
-		return 0;
-	}
-	
+	/**
+	 * Similar to {@link #compareTo(Charity, String)}, but it is meant exclusively for the financial data.
+	 * 
+	 * @param o The charity to compare with
+	 * @param index The index of the financial data to compare
+	 * @return Returns 1 if this charity would be ranked first, -1 if the other charity would be ranked first or 0 if they are "equal"
+	 */
 	public int compareTo(Charity o, int index){ //to compare financial statistics
 		if (this.stat[index] > o.getStats(index)){
 			return(1);
@@ -99,93 +122,126 @@ public class Charity implements Comparable<Charity>{
 		return(0);
 	}
 	
+	/**
+	 * A default comparator which is the most likely desired use of the {@link #compareTo(Charity, String)} method. Compares names.
+	 * 
+	 * @param o The charity to compare with
+	 */
 	public int compareTo(Charity o){
 	 	return (this.name.compareTo(o.getName()));
 	}
 	
+	/**
+	 * A way to print charities to the screen
+	 * 
+	 * @return The string representation of the charity
+	 */
 	public String toString(){
-		return (this.bnum+": "+this.name+" "+this.desc);
+		return (this.bnum+"- "+this.name);
 	}
 	
-	public void setName(String s){
-		this.name=s;
-	}
+	/**
+	 * A way to get the charity's name
+	 * 
+	 * @return The charity's name
+	 */
 	public String getName(){
 		return (this.name);
 	}
 	
-	public void setDesc(String s){
-		this.desc=s;
-	}
+	/**
+	 * A way to get the charity's decription
+	 * 
+	 * @return The charity's description
+	 */
 	public String getDesc(){
 		return (this.desc);
 	}
 	
-	public void setBnum(String s){
-		this.bnum=s;
-	}
+	/**
+	 * A way to get the charity's business number
+	 * 
+	 * @return The charity's business number
+	 */
 	public String getBnum(){
 		return (this.bnum);
 	}
 	
-	public void setHland(String s){
-		this.land=s;
-	}
+	/**
+	 * A way to get the charity's home country
+	 * 
+	 * @return The charity's home country
+	 */
 	public String getHland(){
 		return (this.land);
 	}
 	
-	public void setHome(String s){
-		this.home=s;
-	}
+	/**
+	 * A way to get the charity's HQ location
+	 * 
+	 * @return Where the charity HQ is located
+	 */
 	public String getHome(){
 		return (this.home);
 	}
 	
+	/**
+	 * A way to get the charity's operating country
+	 * 
+	 * @return The charity's operating country
+	 */
 	public String getOland(){
 		return oper;
 	}
 	
-	public void setProg(String[] s){
-		this.prog=s;
-	}
+	/**
+	 * A way to get all a charity's current programs
+	 * 
+	 * @return An array containing the current programs
+	 */
 	public String[] getProg(){
 		return (this.prog);
 	}
+	/**
+	 * A way to get a charity's program by index
+	 * 
+	 * @return A single charity program
+	 */
 	public String getProg(int i){
 		return (this.prog[i]);
 	}
 	
-	public void setServ(String[] s){
-		this.misc=s;
-	}
+	/**
+	 * A way to get all a charity's miscallaneous data
+	 * 
+	 * @return An array containing all the miscallaneous data
+	 */
 	public String[] getServ(){
 		return (this.misc);
 	}
+	/**
+	 * A way to get a single piece of charity's miscallaneous data
+	 * 
+	 * @return A single piece of miscallaneous data
+	 */
 	public String getServ(int i){
 		return (this.misc[i]);
 	}
 	
-	public void setStats(int[] x){
-		this.stat=x;
-	}
+	/**
+	 * A way to get all a charity's current financial information
+	 * 
+	 * @return An array containing the current programs
+	 */
 	public int[] getStats(){
 		return (this.stat);
 	}
+	/**
+	 * A way to get a single piece of charity's financial data
+	 * 
+	 * @return A single piece of financial data
+	 */
 	public int getStats(int i){
 		return (this.stat[i]);
 	}
-}
-
-class businessComparator implements Comparator<Charity> 
-{
-
-
-	public int compare(Charity o1, Charity o2) {
-    	String name1 = o1.getBnum();
-    	String name2 = o2.getBnum(); 
-    	
-    	return name1.compareTo(name2);
-	}
-
 }
