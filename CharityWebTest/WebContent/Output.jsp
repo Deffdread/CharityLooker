@@ -19,9 +19,31 @@ out.println("<br>"+"Organization: "+output.getName());
 out.println("<br>"+"Business Number: "+output.getBnum());
 out.println("<br>"+"Decription:"+"<br>"+output.getDesc());
 
-
 %> 
 <br>
+
+<form method="POST" action="ControllerCharity.do">       
+	What would you like to view?:<p>   
+	1. Basic Data <br>
+	2. Operating Data <br>
+	3. Financial Data <br>
+	4. Miscellaneous Data <br>   
+	Commands:       
+	<select name="input" size="1">        
+ 		<option>1</option>         
+ 		<option>2</option>      
+ 		<option>3</option>     
+ 		<option>4</option>            
+ 	</select>       
+<input type = hidden name = "object" value = "<% out.print(output.getName()); %>"> 
+ 	<br>       
+ 	<br>       
+ 	<center>         
+ 		<input type="SUBMIT">      
+  	</center>     
+
+ </form>
+
 <br>
 <br>
 <br>

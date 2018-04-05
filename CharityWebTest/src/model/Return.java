@@ -12,17 +12,28 @@ public class Return {
 	static LinearProbing hashName;
 	static AdjacencyHash hashProg;
 	static Charity[] charities;
+	static DataPacker DP;
+	
 	public static void main(String[] arg) throws IOException {
 		Return test = new Return(); 
-		System.out.println(test.getName("AGA KHAN FOUNDATION CANADA / FONDATION AGA KHAN CANADA"));
+		//System.out.println(test.getName("AGA KHAN FOUNDATION CANADA / FONDATION AGA KHAN CANADA"));
+		
+		//String[] boop = test.getFuzzyName("Heart and Stroke");
+		//for(int i = 0; i < boop.length ; i++) {
+		//	System.out.println(boop[i]);
+		//}
+		
+		String[] beep = test.getFuzzyBnum("811036425RR");
+		for(int i = 0; i < beep.length ; i++) {
+		System.out.println(beep[i]);
+		}
 	}
 	
 	public Return() throws IOException {
 		
-		DataPacker DP = new DataPacker();
+		DP = new DataPacker();
 		
 		charities = DP.getData();
-
 		Quick.sort(DP.getData(),"bnum");
 		
 		hashBnum = new LinearProbing(charities.length);
@@ -49,56 +60,94 @@ public class Return {
 		return charities;
 	}
 	
-	/*
+	//if null
+	public static String[] getFuzzyName(String name){
+		String mode = "1";
+		String lookFor=mode;
+		
+		//System.out.println(charities[1]);
+		//charities = DP.getData();
+		//Charity[] temp1 = DP.getData();
+		//String[][] temp = DP.getNames();
+		//for(int i = 0; i < 10; i++) {
+		//	System.out.println(temp[i][0]);
+		//}
 
-	{
-			
-			if (choice.equals("1")){ //search by name
-				System.out.print("Please enter the name of the charity:\n>");
-				choice = inputStr.nextLine().toUpperCase();
-				current = hashName.get(choice);
-				if (current==null){
-					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these names if so:");
-					nullCur=true;
-				}
-				
-			}else if (choice.equals("2")){ //search by business number
-				System.out.print("Please enter the business number of the charity:\n>");
-				choice = inputStr.nextLine().toUpperCase();
-				current = hashBnum.get(choice);
-				if (current==null){
-					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
-					nullCur=true;
-				}
-				
-			
-			if (nullCur==true){
-				String lookFor=mode;
-				
-				int[][] indexArr = findSimilarIndex(lookFor,choice,DP.getNames());
-				
-				System.out.println("("+indexArr.length+" return(s): Currently sorting for \""+choice+"\")");
-				
-				for (int i = 0; i < indexArr.length; i++){
-					if (lookFor.equals("1"))
-						System.out.println(DP.getNames()[indexArr[i][0]][1]);
-					else if (lookFor.equals("2"))
-						System.out.println(charities[indexArr[i][0]].getBnum()+" - "+charities[indexArr[i][0]].getName());
-					
-				}
-				
-				System.out.print("Would you like to try again?\n1. Yes\n2. No\n>");
-				choice = inputStr.nextLine();
-				if (choice.equals("1"))
-					hold= true;
-				else
-					hold=false;
+		
+		int[][] indexArr = findSimilarIndex(lookFor,name,DP.getNames());
+		int count = 0; 
+
+		for (int i = 0; i < indexArr.length; i++){
+			if (lookFor.equals("1")) {
+				count = count + 1; 
 			}
+		}
+		
+		String returnArray[] = new String[count];
+		count = 0; 
+		
+		for (int i = 0; i < indexArr.length; i++){
+			if (lookFor.equals("1")) {
+				returnArray[count] = DP.getNames()[indexArr[i][0]][1];
+				count++; 
+			}
+		}
+		
+		String[] actualReturnArray = new String[returnArray.length+1];
+		count = 0; 
+		for (int i = 1; i < returnArray.length+1; i++){
+			actualReturnArray[i] = returnArray[count];
+			count++;
+		}
+		actualReturnArray[0] = "Did you mean?";
+		return actualReturnArray;
+		
+	}
+	
+	//if null
+	public static String[] getFuzzyBnum(String name){
+		String mode = "2";
+		String lookFor=mode;
+		
+		int[][] indexArr = findSimilarIndex(lookFor,name,DP.getNames());
+		int count = 0; 
+
+		for (int i = 0; i < indexArr.length; i++){
+			if (lookFor.equals("2")) {
+				count = count + 1; 
+			}
+		}
+		
+		String returnArray[] = new String[count];
+		count = 0; 
+		
+		for (int i = 0; i < indexArr.length; i++){
+			if (lookFor.equals("2")) {
+				returnArray[count] = charities[indexArr[i][0]].getBnum()+" - "+charities[indexArr[i][0]].getName();
+				count++; 
+			}
+		}
+		
+		String[] actualReturnArray = new String[returnArray.length+1];
+		count = 0; 
+		for (int i = 1; i < returnArray.length+1; i++){
+			actualReturnArray[i] = returnArray[count];
+			count++;
+		}
+		actualReturnArray[0] = "Did you mean?";
+		return actualReturnArray;
+		
+	}
+
+
+			
+
+				
+
 			
 			
 			
-			
-			
+/*			
 			if (current != null){ //explore data
 				System.out.println("You have selected: "+current.getName());
 				
@@ -156,20 +205,9 @@ public class Return {
 							System.out.println("Ran political campaign: "+current.getServ(5));
 						}
 					}
-					
-				} while (!choice.equals("9"));
-				choice="0";
-			}
-			
-		}while(!choice.contentEquals("9"));
-		inputStr.close();
-	}
+	*/				
 	
-	private static Charity getCharity(String choice, LinearProbing hashTable){ //For Jason T
-		Charity current = hashTable.get(choice.toUpperCase());
-		return current;
-	}
-	
+	//local function
 	private static int[][] findSimilarIndex(String mode,String base,String[][] charityNames){
 		ArrayList<int[]> closeL = new ArrayList<int[]>();
 		Locale language = new Locale("English");
@@ -204,7 +242,7 @@ public class Return {
 	}
 	
 	
-	
+	//local function
 	private static void sortSimilar(int[][] close){
 		for (int i=0; i<close.length-1; i++){
 			for (int j=0; j<close.length-1; j++){
@@ -216,6 +254,6 @@ public class Return {
 			}
 		}
 		
-	}*/
+	}
 	
 }

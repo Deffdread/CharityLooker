@@ -1,4 +1,4 @@
-package web;
+ package web;
 
 import java.io.IOException;
 
@@ -21,8 +21,15 @@ public class searchName extends HttpServlet {
 		c = c.toUpperCase();
 		Return client = new Return();         
 		Charity result = client.getName(c); 
-		request.setAttribute("styles", result); 
-		RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 
-		view.forward(request, response);      
+		if(result == null) {
+			String[] result2 = client.getFuzzyName(c);
+			request.setAttribute("styles", result2); 
+			RequestDispatcher view = request.getRequestDispatcher("OutputAllString.jsp"); 
+			view.forward(request, response);   
+		}else {
+			request.setAttribute("styles", result); 
+			RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 
+			view.forward(request, response);    
+		}
 	} 
 }	

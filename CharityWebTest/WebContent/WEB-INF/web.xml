@@ -52,7 +52,7 @@
   </servlet-mapping>  
      
      
-             <servlet>     
+    <servlet>     
   	<servlet-name>searchAll</servlet-name>     
   	<servlet-class> web.searchAll</servlet-class> 	
   </servlet>
@@ -61,7 +61,14 @@
   	 <url-pattern>/searchAll.do</url-pattern> 
   </servlet-mapping>  
      
-     
+      <servlet>     
+  	<servlet-name>ControllerCharity</servlet-name>     
+  	<servlet-class> web.ControllerCharity</servlet-class> 	
+  </servlet>
+  <servlet-mapping>    
+  	 <servlet-name>ControllerCharity</servlet-name>     
+  	 <url-pattern>/ControllerCharity.do</url-pattern> 
+  </servlet-mapping>  
      
   
   

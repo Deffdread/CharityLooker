@@ -22,8 +22,15 @@ public class searchBnum extends HttpServlet {
 		c = c.toUpperCase();
 		Return client = new Return();         
 		Charity result = client.getBnum(c); 
-		request.setAttribute("styles", result); 
-		RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 
-		view.forward(request, response);      
+		if(result == null) {
+			String[] result2 = client.getFuzzyBnum(c);
+			request.setAttribute("styles", result2); 
+			RequestDispatcher view = request.getRequestDispatcher("OutputAllString.jsp"); 
+			view.forward(request, response);   
+		}else {
+			request.setAttribute("styles", result); 
+			RequestDispatcher view = request.getRequestDispatcher("Output.jsp"); 
+			view.forward(request, response);    
+		}
 	} 
 }	
