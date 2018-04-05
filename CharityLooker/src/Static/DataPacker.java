@@ -7,6 +7,8 @@ public class DataPacker {
 	private Charity[] export;
 	private String[][] names;
 	private String[][] progref;
+	private AdjacencyHash progHash;
+	
 	public DataPacker() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
 		System.out.println("=====");
@@ -86,7 +88,8 @@ public class DataPacker {
 				opcy += "," + data6[j][1];
 				j++;
 			}
-			String[] deta = new String[] { data2[i][1], data2[i][3], data2[i][5], data2[i][9],data2[i][10],data2[i][11] };
+			String[] programs = new String[] { data2[i][1], data2[i][3], data2[i][5], data2[i][9],data2[i][10],data2[i][11] };
+			
 			String[] fstat = new String[] { data5[i][1], data5[i][2], data5[i][3], data5[i][4], data5[i][5],
 					data5[i][6], data5[i][7] };
 			
@@ -98,8 +101,23 @@ public class DataPacker {
 				data3[i][3]="0";
 			
 			String[] misc = new String[] { data1[i][1], data3[i][1], data3[i][2], data3[i][3], data2[i][7], data2[i][8] };
-			export[i] = new Charity(name, desc, BN, land, home, opcy, deta, misc, fstat);
+			export[i] = new Charity(name, desc, BN, land, home, opcy, programs, misc, fstat);
 		}
+		
+		progHash = new AdjacencyHash(128);
+		
+		
+		System.out.println("In");
+		for (Charity c : export){
+			for (int i=0; i<3; i++){
+				if (c.getProg(i)!=null && !c.getProg(i).equals(""))
+					progHash.put(c.getProg(i),c);
+			}
+		}
+		
+		/*for (int i=0; i<progHash.get("C13").size(); i++){
+			System.out.println(progHash.get("C13").get(i));
+		}*/
 
 		double end = stopwatch.elapsedTime();
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
@@ -116,6 +134,10 @@ public class DataPacker {
 	
 	protected String[][] getNames() {
 		return names;
+	}
+	
+	protected AdjacencyHash getProg() {
+		return progHash;
 	}
 
 }
