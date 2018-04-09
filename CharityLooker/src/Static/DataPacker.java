@@ -10,10 +10,7 @@ public class DataPacker {
 	private AdjacencyHash progHash;
 	
 	public DataPacker() throws IOException {
-		Stopwatch stopwatch = new Stopwatch();
 		System.out.println("=====");
-
-		double begin = stopwatch.elapsedTime();
 		
 		String[] nameHeader = new String[] { "BN", "Legal Name" };
 		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
@@ -74,6 +71,7 @@ public class DataPacker {
 		
 		progref = data7;
 		export = new Charity[data1.length];
+		progHash = new AdjacencyHash(128);
 
 		// If statement does not work properly
 		int j = 0;
@@ -102,25 +100,12 @@ public class DataPacker {
 			
 			String[] misc = new String[] { data1[i][1], data3[i][1], data3[i][2], data3[i][3], data2[i][7], data2[i][8] };
 			export[i] = new Charity(name, desc, BN, land, home, opcy, programs, misc, fstat);
-		}
-		
-		progHash = new AdjacencyHash(128);
-		
-		
-		System.out.println("In");
-		for (Charity c : export){
-			for (int i=0; i<3; i++){
-				if (c.getProg(i)!=null && !c.getProg(i).equals(""))
-					progHash.put(c.getProg(i),c);
+			
+			for (int k=0; k<3; k++){
+				if (export[i].getProg(k)!=null && !export[i].getProg(k).equals(""))
+					progHash.put(export[i].getProg(k).toUpperCase(),export[i]);
 			}
 		}
-		
-		/*for (int i=0; i<progHash.get("C13").size(); i++){
-			System.out.println(progHash.get("C13").get(i));
-		}*/
-
-		double end = stopwatch.elapsedTime();
-		System.out.println("Loaded in: " + ((end - begin) / 1000000));
 		
 	}
 	

@@ -1,5 +1,7 @@
 package Static;
 
+import java.util.LinkedList;
+
 /**
  * A charity ADT that contains all relevant data to one particular charity
  * 
@@ -17,6 +19,7 @@ public class Charity implements Comparable<Charity>{
 	private String[] prog; //current programs
 	private int[] stat; //financial statistics
 	private String[] misc; //misc statistics
+	private LinkedList<Charity> edgeIndex; //the index of what it is connected to in the graph
 	
 	/**
 	 * Blank, default constructor.
@@ -31,6 +34,7 @@ public class Charity implements Comparable<Charity>{
 		this.prog=new String[] {"Nothing"};
 		this.misc=new String[] {"Nothing"};
 		this.stat=new int[] {0};
+		this.edgeIndex=new LinkedList<Charity>();
 	}
 	
 	/**
@@ -55,6 +59,7 @@ public class Charity implements Comparable<Charity>{
 		this.oper=ocountry;
 		this.prog=programs;
 		this.misc=services;
+		this.edgeIndex=new LinkedList<Charity>();
 		
 		int[] temp = new int[financial.length];
 		for (int i=0; i<temp.length; i++)
@@ -244,4 +249,15 @@ public class Charity implements Comparable<Charity>{
 	public int getStats(int i){
 		return (this.stat[i]);
 	}
+	
+	public void addEdge(Charity edge){
+		edgeIndex.add(edge);
+	}
+	public Charity getEdge(int index){
+		return edgeIndex.get(index);
+	}
+	public LinkedList<Charity> getEdge(){
+		return edgeIndex;
+	}
+	
 }

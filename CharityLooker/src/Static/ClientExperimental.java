@@ -9,15 +9,17 @@ import java.util.Scanner;
 public class ClientExperimental {
 
 	public static void main(String[] args) throws IOException {	
-		DataPacker DP = new DataPacker();
+		Stopwatch stopwatch = new Stopwatch();
+		double begin = stopwatch.elapsedTime();
 		
+		DataPacker DP = new DataPacker();
 		Charity[] charities = DP.getData();
 
 		Quick.sort(DP.getData(),"bnum");
 		
 		LinearProbing hashBnum = new LinearProbing(charities.length);
 		LinearProbing hashName = new LinearProbing(charities.length);
-		AdjacencyHash hashProg = new AdjacencyHash(16);
+		AdjacencyHash hashProg = DP.getProg();
 		//System.out.println("ended");
 		
 		/*System.out.println("started2");
@@ -65,6 +67,9 @@ public class ClientExperimental {
 		//for (int i=0; i<100; i++)
 			//System.out.println(DP.getData()[i]);*/
 		
+		double end = stopwatch.elapsedTime();
+		System.out.println("Loaded in: " + ((end - begin) / 1000000));
+		
 		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
 		String choice = "";
 		Scanner inputStr = new Scanner(System.in);
@@ -80,12 +85,12 @@ public class ClientExperimental {
 				current = null;
 				System.out.print("Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n4. Search by operating country\n9. Quit\n>");
 				choice = inputStr.nextLine();
+				mode=choice;
 			}
 			hold=false;
 			nullCur=false;
-			mode=choice;
 			
-			if (choice.equals("1")){ //search by name
+			if (mode.equals("1")){ //search by name
 				System.out.print("Please enter the name of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashName.get(choice);
@@ -94,7 +99,7 @@ public class ClientExperimental {
 					nullCur=true;
 				}
 				
-			}else if (choice.equals("2")){ //search by business number
+			}else if (mode.equals("2")){ //search by business number
 				System.out.print("Please enter the business number of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashBnum.get(choice);
@@ -102,85 +107,28 @@ public class ClientExperimental {
 					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
 					nullCur=true;
 				}
+			}else if (mode.equals("3")){
+				System.out.print("Please enter the program code (refer to documentation):\n>");
+				choice = inputStr.nextLine().toUpperCase();
+				LinkedList<Charity> result = DP.getProg().get(choice);
 				
-//			}else if (choice.equals("3")){ //search by business number
-//				System.out.print("Please enter the business number of the charity:\n>");
-//				choice = inputStr.nextLine().toUpperCase();
-//				current = hashBnum.get(choice);
-//				if (current==null){
-//					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
-//					nullCur=true;
-//				}
-//			}else if (choice.equals("4")){ //search by business number
-//				do
-//				{
-//				times++;
-//				System.out.print("Please enter a charitable cause:\n>");
-//				String[][] progref = DP.getProgRef();
-//				choice = inputStr.nextLine().toUpperCase();
-//				String cleanchoice = choice.replaceAll("/[^A-Za-z0-9]/", ",");
-//				String[] choices = cleanchoice.split(",");
-//				int j = 0;
-//				int count = 0;
-//				int[] counts = new int[] {0, 0, 0, 0, 0};
-//				String[][] options = new String[][] {{null, null}, {null, null}, {null, null}, {null,null}, {null, null}};
-//				for (int i = 0; i < progref.length; i++) {
-//					count = 0;
-//					j = 0;
-//					while(j < choices.length && choices[j].length() > 3 && progref[i][1].toUpperCase().contains(choices[j])) {
-//						count++;
-//						j++;
-//					}
-//					int k = counts.length - 1;
-//					while(k >= 0 && count > counts[k]) {
-//						if(k == counts.length - 1) {
-//							System.out.println(progref[i][1]);
-//							options[counts.length - 1][1] = progref[i][1];
-//							options[counts.length - 1][0] = progref[i][0];
-//							k--;
-//						}
-//						else{
-//							options[k+1][0] = options[k][0];
-//							options[k][0] = progref[i][1];
-//							options[k+1][1] = progref[k][0];
-//							options[k][1] = progref[i][0];
-//							k--;
-//						}
-//					}
-//				}
-//						System.out.println("Select a Program using the corresponding numbers:");
-//						for (int k2 = 0; k2 < options.length; k2++) {
-//							if (options[k2][0] != null)
-//								System.out.println((k2 + 1) + ". " + options[k2][0]);
-//						}
-//						inputStr = new Scanner(System.in);
-//						String number = inputStr.nextLine();
-//						int index = Integer.parseInt(number);
-//						current2 = hashProg.get(options[index][1]);
-//						for (int i = 0; i < current2.size(); i++) {
-//							System.out.println(current2.get(i));
-//						}
-//						System.out.println("Would you like to:\n1. Search by Operating country\n2. Search by Charity name\n3. Search by program again (up to \" + (3 - times) + \" more times)");
-//						if (times == 3) {
-//							System.out.println("Would you like to:\n1. Search by Operating country\n2. Search by Charity name");
-//						}
-//						inputStr = new Scanner(System.in);
-//						choice = inputStr.nextLine();
-//			}while(choice == "3");
-//		}
-//	}while(true);
-//	}
-//				if (current==null){
-//					System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
-//					nullCur=true;
-//				}
-			}else if (choice.equals("9")){
+				if (result!=null){
+					DepthFirstSearch DFS = new DepthFirstSearch(result);
+					DFS.print();
+				}else{
+					System.out.println("Invalid entry, please try again");
+				}
+				
+				current = new Charity();
+			}else if (mode.equals("9")){
 				System.out.println("Exiting now...");
 			}else{
 				System.out.println("Invalid Input - Please try again");
 			}
 			
-			if (nullCur==true){
+			if (current==null && (mode.equals("1") || mode.equals("2"))){
+				System.out.println("The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+				
 				String lookFor=mode;
 				
 				int[][] indexArr = findSimilarIndex(lookFor,choice,DP.getNames());
@@ -203,7 +151,7 @@ public class ClientExperimental {
 					hold=false;
 			}
 			
-			if (current != null){ //explore data
+			if (current != null && (mode.equals("1") || mode.equals("2"))){ //explore data
 				System.out.println("You have selected: "+current.getName());
 				
 				do{
@@ -265,13 +213,8 @@ public class ClientExperimental {
 				choice="0";
 			}
 			
-		}while(!choice.contentEquals("9"));
+		}while(!mode.contentEquals("9"));
 		inputStr.close();
-	}
-	
-	private static Charity getCharity(String choice, LinearProbing hashTable){ //For Jason T
-		Charity current = hashTable.get(choice.toUpperCase());
-		return current;
 	}
 	
 	private static int[][] findSimilarIndex(String mode,String base,String[][] charityNames){
