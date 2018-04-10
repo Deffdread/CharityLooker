@@ -15,7 +15,6 @@ public class DataPacker {
 		String[] nameHeader = new String[] { "BN", "Legal Name" };
 		names = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", nameHeader);
 		
-		// Note: Some errors
 		// Identification
 		/*
 		 * Meanings BN - Business number Category - Type of charity Legal Name - Name of
@@ -109,19 +108,19 @@ public class DataPacker {
 		
 	}
 	
-	protected Charity[] getData() {
+	public Charity[] getData() {
 		return export;
 	}
 	
-	protected String[][] getProgRef(){
+	public String[][] getProgRef(){
 		return progref;
 	}
 	
-	protected String[][] getNames() {
+	public String[][] getNames() {
 		return names;
 	}
 	
-	protected AdjacencyHash getProg() {
+	public AdjacencyHash getProg() {
 		return progHash;
 	}
 

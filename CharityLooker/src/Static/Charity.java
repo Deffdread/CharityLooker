@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * @since February 26/18
  * @version 12.0
  */
-public class Charity implements Comparable<Charity>{
+public class Charity{
 	private String   name; //name of charity
 	private String   desc; //description (category number)
 	private String   bnum; //business number/ ID
@@ -125,15 +125,6 @@ public class Charity implements Comparable<Charity>{
 			return(-1);
 		}
 		return(0);
-	}
-	
-	/**
-	 * A default comparator which is the most likely desired use of the {@link #compareTo(Charity, String)} method. Compares names.
-	 * 
-	 * @param o The charity to compare with
-	 */
-	public int compareTo(Charity o){
-	 	return (this.name.compareTo(o.getName()));
 	}
 	
 	/**
