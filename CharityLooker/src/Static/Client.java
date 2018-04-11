@@ -20,22 +20,21 @@ public class Client {
 		Experimental.CallUI();
 	}
 
-	private LinearProbing hashBnum;
-	private LinearProbing hashName;
-	private AdjacencyHash hashProg;
-	private DataPacker DP;
-	private Charity[] charities;
+	private LinearProbing hashBnum; //a hash table with business number keys and charity values
+	private LinearProbing hashName; //a hash table with name keys and charity values
+	private AdjacencyHash hashProg; //a hash table with program code keys and linked list values
+	private DataPacker DP; //the internal database
+	private Charity[] charities; //an array of all charities collected by DP
 
 	/**
 	 * The constructor that sets up the user interface. The constructor loads
 	 * all nessesary data
-	 * 
-	 * @throws IOException If a data file cannot be found
 	 */
 	public Client() {
 		Stopwatch stopwatch = new Stopwatch();
 		double begin = stopwatch.elapsedTime();
 		try{
+			//create database
 			DP = new DataPacker();
 		}catch (IOException e){
 			System.out.println("Error with data file collection. Please check DataPacker");
@@ -43,14 +42,16 @@ public class Client {
 			return;
 		}
 		
+		//retrieve main data from database
 		charities = DP.getData();
 
-		Quick.sort(DP.getData(), "bnum");
+		Quick.sort(charities, "bnum");
 
 		hashBnum = new LinearProbing(charities.length);
 		hashName = new LinearProbing(charities.length);
-		hashProg = DP.getProg();
+		hashProg = DP.getProg(); //the program hash table is created within the constructor of DataPacker
 
+		//ensure no duplicates in the hash table
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
 			hashName.put(charities[i].getName().toUpperCase(), charities[i]);
@@ -77,42 +78,34 @@ public class Client {
 		String choice = "";
 		Scanner inputStr = new Scanner(System.in);
 
-		Charity current = null;
-		boolean hold = false;
-		boolean nullCur = false;
+		Charity current = null; //holds the charity that is currently selected
+		boolean hold = false; //should the user prompt be hidden for a loop because of a prexisting situation
 		String mode = "0";
 		do {
 			if (!hold) {
 				current = null;
-				System.out.print(
-						"Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n9. Quit\n>");
+				System.out.print("Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n9. Quit\n>");
 				choice = inputStr.nextLine();
 				mode = choice;
 			}
 			hold = false;
-			nullCur = false;
 
 			if (mode.equals("1")) { // search by name
 				System.out.print("Please enter the name of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashName.get(choice);
-				if (current == null) {
-					nullCur = true;
-				}
 
 			} else if (mode.equals("2")) { // search by business number
 				System.out.print("Please enter the business number of the charity:\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashBnum.get(choice);
-				if (current == null) {
-					nullCur = true;
-				}
+				
 			} else if (mode.equals("3")) {
 				System.out.print("Please enter the program code (refer to documentation):\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				LinkedList<Charity> result = DP.getProg().get(choice);
 				
-				result=reduceResults(result,choice);
+				result=reduceResults(result);
 				
 				if (result != null) {
 					DepthFirstSearch DFS = new DepthFirstSearch(result);
@@ -121,22 +114,25 @@ public class Client {
 					System.out.println("Invalid entry, please try again");
 				}
 
-				current = new Charity();
+				current = new Charity();//pretend something was found to bypass checks
 			} else if (mode.equals("9")) {
 				System.out.println("Exiting now...");
 			} else {
 				System.out.println("Invalid Input - Please try again");
 			}
 
-			if (current == null && (mode.equals("1") || mode.equals("2"))) {
+			if (current == null && (mode.equals("1") || mode.equals("2"))) { //nothing found when expecting answer
 				System.out.println("The entered charity was not found. Did you mean one of the following:");
 
+				//track what the user was looking for
 				String lookFor = mode;
 
+				//create an array that is sorted in order of similarity
 				int[][] indexArr = findSimilarIndex(lookFor, choice, DP.getNames());
 
 				System.out.println("(" + indexArr.length + " return(s): Currently sorting for \"" + choice + "\")");
 
+				//go through array and print the result to the console. The better matches are at the bottom
 				for (int i = 0; i < indexArr.length; i++) {
 					if (lookFor.equals("1"))
 						System.out.println(DP.getNames()[indexArr[i][0]][1]);
@@ -154,20 +150,18 @@ public class Client {
 					hold = false;
 			}
 
-			if (current != null && (mode.equals("1") || mode.equals("2"))) { // explore data
+			if (current != null && (mode.equals("1") || mode.equals("2"))) { // explore data with a selected charity
 				System.out.println("You have selected: " + current.getName());
 
 				do {
-					System.out.print(
-							"Would you like to:\n1. View basic data\n2. View operating data\n3. View financial data\n4. Miscellaneous data\n5. Find similar charities\n9. Return to charity selection\n>");
+					System.out.print("Would you like to:\n1. View basic data\n2. View operating data\n3. View financial data\n4. Miscellaneous data\n5. Find similar charities\n9. Return to charity selection\n>");
 					choice = inputStr.nextLine();
 
 					if (choice.equals("1")) {
 						System.out.println("Description: " + current.getDesc());
 						System.out.println("Business number: " + current.getBnum());
 					} else if (choice.equals("2")) {
-						System.out.print(
-								"Would you like to see: \n1. Home country and HQ location\n2. Operating country\n3. Programs\n>");
+						System.out.print("Would you like to see: \n1. Home country and HQ location\n2. Operating country\n3. Programs\n>");
 						choice = inputStr.nextLine();
 						if (choice.equals("1")) {
 							System.out.println("Home country: " + current.getHland());
@@ -186,8 +180,7 @@ public class Client {
 							System.out.println("Invalid input");
 						}
 					} else if (choice.equals("3")) {
-						System.out.print(
-								"Would you like to see:\n1. Accounting information\n2. Cash and Investment amounts\n3. Private ownership\n>");
+						System.out.print("Would you like to see:\n1. Accounting information\n2. Cash and Investment amounts\n3. Private ownership\n>");
 						choice = inputStr.nextLine();
 						if (choice.equals("1")) {
 							System.out.println("Total revenue: $" + current.getStats(0));
@@ -202,16 +195,15 @@ public class Client {
 							System.out.println("Is the charity privately owned: " + current.getServ(4));
 						}
 					} else if (choice.equals("4")) {
-						System.out.print(
-								"Would you like to see:\n1. Charity category\n2. Employment information\n3. Political Activity\n>");
+						System.out.print("Would you like to see:\n1. Charity category\n2. Employment information\n3. Political Activity\n>");
 						choice = inputStr.nextLine();
-						if (choice.equals("1")) { // 0
+						if (choice.equals("1")) {
 							System.out.println("Charity category: " + current.getServ(0));
-						} else if (choice.equals("2")) { // 1,2,3
+						} else if (choice.equals("2")) {
 							System.out.println("Number of full time positions: " + current.getServ(1));
 							System.out.println("Number of part time positions: " + current.getServ(2));
 							System.out.println("Expenditure on positions: $" + current.getServ(3));
-						} else if (choice.equals("3")) { // 5
+						} else if (choice.equals("3")) {
 							System.out.println("Ran political campaign: " + current.getServ(5));
 						}
 					} else if (choice.equals("5")) {
@@ -238,7 +230,7 @@ public class Client {
 						if (found){
 							LinkedList<Charity> result = DP.getProg().get(choice);
 							
-							result=reduceResults(result,choice);
+							result=reduceResults(result);
 							
 							if (result != null) {
 								DepthFirstSearch DFS = new DepthFirstSearch(result);
@@ -273,16 +265,18 @@ public class Client {
 		Locale language = new Locale("English");
 		FuzzyScore fs = new FuzzyScore(language);
 
+		//set the minimum required score to classify as "matched"
 		double factor = 0;
 		if (mode.equals("1"))
-			factor = 0.6;
+			factor = 0.65;
 		else if (mode.equals("2"))
-			factor = 0.7;
+			factor = 0.8;
 
 		int max = fs.fuzzyScore(base, base);
 		int cutOff = (int) (max * factor);
 		int score = 0;
 
+		//compare all elements
 		for (int cur = 0; cur < charityNames.length; cur++) {
 			if (mode.equals("1"))
 				score = fs.fuzzyScore(base, charityNames[cur][1].toUpperCase());
@@ -299,10 +293,16 @@ public class Client {
 		return close;
 	}
 
+	/**
+	 * Modularized sortinf for the "matches" Since the list is (usually) short, bubble sort has no large impact.
+	 * However, it was modularized so that the sort method can be easily changed.
+	 * 
+	 * @param close The array to sort
+	 */
 	private static void sortSimilar(int[][] close) {
-		for (int i = 0; i < close.length - 1; i++) {
-			for (int j = 0; j < close.length - 1; j++) {
-				if (close[i][1] < close[j][1]) {
+		for (int i = 0; i < close.length; i++) {
+			for (int j = i; j < close.length; j++) {
+				if (close[i][1] > close[j][1]) {
 					int[] temp = close[i];
 					close[i] = close[j];
 					close[j] = temp;
@@ -311,7 +311,15 @@ public class Client {
 		}
 	}
 	
-	private LinkedList<Charity> reduceResults(LinkedList<Charity> result, String choice){
+	/**
+	 * When the searching for similar charities, sometimes the result array is too long and a stack overflow occurs.
+	 * This method caps the maximum amount of results to 500 and randomly chooses from the larger array which ones
+	 * will stay included
+	 * 
+	 * @param result The array to reduce
+	 * @return The thinned out input array
+	 */
+	private LinkedList<Charity> reduceResults(LinkedList<Charity> result){
 		LinkedList<Charity> temp = new LinkedList<Charity>();
 		if (result.size() > 500){
 			for (int i=0; i<500; i++){

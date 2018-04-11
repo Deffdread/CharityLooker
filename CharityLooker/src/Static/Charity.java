@@ -19,7 +19,7 @@ public class Charity{
 	private String[] prog; //current programs
 	private int[] stat; //financial statistics
 	private String[] misc; //misc statistics
-	private LinkedList<Charity> edgeIndex; //the index of what it is connected to in the graph
+	private LinkedList<Charity> edgeIndex; //what the neighbouring charities are to this charity
 	
 	/**
 	 * Blank, default constructor.
@@ -61,6 +61,7 @@ public class Charity{
 		this.misc=services;
 		this.edgeIndex=new LinkedList<Charity>();
 		
+		//read an int or if it is empty, mak it 0
 		int[] temp = new int[financial.length];
 		for (int i=0; i<temp.length; i++)
 			try{
@@ -70,13 +71,6 @@ public class Charity{
 			};
 		this.stat=temp;
 	}
-	
-	/* compareTo()
-	 * s1 == s2 :0
-	 * s1 > s2  :positive value
-	 * s1 < s2  :negative value
-	 */
-	
 	
 	/**
 	 * A versitile method that compares charities based on some criteria.

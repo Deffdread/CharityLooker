@@ -17,17 +17,25 @@ public class DataPacker {
 		
 		// Identification
 		/*
-		 * Meanings BN - Business number Category - Type of charity Legal Name - Name of
-		 * charity City - Mailing address city Country - mailing address ccountry
+		 * Meanings:
+		 * BN - Business number 
+		 * Category - Type of charity 
+		 * Legal Name - Name of charity 
+		 * City - Mailing address city 
+		 * Country - mailing address ccountry
 		 */
 		String[] header1 = new String[] { "BN", "Category", "Legal Name", "City", "Country" };
 		String[][] data1 = FileInterpreter.getDataFromFile("data/Charity_Identification.csv", header1);
 		
 		// General Info
 		/*
-		 * Meanings BN - Business Number Program #1 Code - Operating Area Code Program
-		 * #1 - Program Area #1 Percentage Program #2,3 (Code) - Same as above 1600 - Is
-		 * charity private 2400 - Has the charity carried any political activities
+		 * Meanings:
+		 * BN - Business Number 
+		 * Program #1 Code - Operating Area Code 
+		 * Program #1 - Program Area #1 Percentage 
+		 * Program #2,3 (Code) - Same as above 
+		 * 1600 - Is charity private 
+		 * 2400 - Has the charity carried any political activities
 		 */
 		
 		String[] header2 = new String[] { "BN", "Program #1 Code", "Program #1",
@@ -37,27 +45,36 @@ public class DataPacker {
 
 		// Compensation
 		/*
-		 * Meanings: BN - Business Number 300 - Number of permanent full time,
-		 * compensated positions 370 - Number of part-time or part-year employees 390 -
-		 * Expenditure on compensated positions
+		 * Meanings: 
+		 * BN - Business Number 
+		 * 300 - Number of permanent full time, compensated positions 
+		 * 370 - Number of part-time or part-year employees 
+		 * 390 - Expenditure on compensated positions
 		 */
 		String[] header3 = new String[] { "BN", "300", "370", "390" };
 		String[][] data3 = FileInterpreter.getDataFromFile("data/Charity_Compensation.csv", header3);
 
 		// Programs
 		/*
-		 * Meanings: BN - Business Number Program Type - Program type code Description -
-		 * Description of program
+		 * Meanings: 
+		 * BN - Business Number 
+		 * Program Type - Program type code 
+		 * Description - Description of program
 		 */
 		String[] header4 = new String[] { "BN", "Program Type", "Description" };
 		String[][] data4 = FileInterpreter.getDataFromFile("data/Charity_Programs.csv", header4);
 
 		// Financial
 		/*
-		 * Meanings: BN - Business Number 4700 - Total revenue 5100 - Total expenditure
-		 * 4200 - Total assets 4350 - Liabilities 4250 - Assets not used in charitable
-		 * activities 4100 - Cash, bank accounts and short-term investments 4140 - Long
-		 * term investments
+		 * Meanings: 
+		 * BN - Business Number 
+		 * 4700 - Total revenue 
+		 * 5100 - Total expenditure
+		 * 4200 - Total assets 
+		 * 4350 - Liabilities 
+		 * 4250 - Assets not used in charitable activities 
+		 * 4100 - Cash, bank accounts and short-term investments 
+		 * 4140 - Long term investments
 		 */
 		String[] header5 = new String[] { "BN", "4700", "5100", "4200", "4350", "4250", "4100", "4140" };
 		String[][] data5 = FileInterpreter.getDataFromFile("data/Charity_Financial.csv", header5);
@@ -65,6 +82,12 @@ public class DataPacker {
 		String[] header6 = new String[] { "BN", "Country", "#" };
 		String[][] data6 = FileInterpreter.getDataFromFile("data/Charity_OperatingCountry.csv", header6);
 		
+		// Program Refernce
+		/*
+		 * Meanings: 
+		 * Program Code - The 2 character alphanumeric code used for searching and UI
+		 * Program Desc - The description that goes with the code
+		 */
 		String[] header7 = new String[] { "Program Code", "Program Desc" };
 		String[][] data7 = FileInterpreter.getDataFromFile("data/Charity_ProgRefer.csv", header7);
 		
@@ -72,7 +95,6 @@ public class DataPacker {
 		export = new Charity[data1.length];
 		progHash = new AdjacencyHash(128);
 
-		// If statement does not work properly
 		int j = 0;
 		for (int i = 0; i < export.length; i++) {
 			String name = data1[i][2];
@@ -108,18 +130,38 @@ public class DataPacker {
 		
 	}
 	
+	/**
+	 * Returns the main charity array
+	 * 
+	 * @return A Charity array
+	 */
 	public Charity[] getData() {
 		return export;
 	}
 	
+	/**
+	 * Returns An array that maps each program code to a description
+	 * 
+	 * @return A 2d string array
+	 */
 	public String[][] getProgRef(){
 		return progref;
 	}
 	
+	/**
+	 * Returns An array that maps business number to the charity name
+	 * 
+	 * @return A 2d string array
+	 */
 	public String[][] getNames() {
 		return names;
 	}
 	
+	/**
+	 * Returns A hashmap where the keys are program codes and the values are linked lists of charities
+	 * 
+	 * @return An AdjacencyHash of all the programs with the charities as values
+	 */
 	public AdjacencyHash getProg() {
 		return progHash;
 	}

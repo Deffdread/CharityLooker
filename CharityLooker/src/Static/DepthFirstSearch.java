@@ -56,7 +56,9 @@ public class DepthFirstSearch {
 			}
 		}
 	}
-	
+	/**
+	 * Prints all the found nodes to the console
+	 */
 	public void print(){
 		System.out.println("Some charities that offer this program are:");
 		int maxPrint=10;

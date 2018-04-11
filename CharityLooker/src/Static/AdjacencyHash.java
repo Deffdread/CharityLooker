@@ -59,7 +59,7 @@ public class AdjacencyHash {
 				return;
 			if (this.n >= this.m / 2)
 				resize(2 * m);
-			//System.out.println(hash(key) + " " + key);
+			
 			int i;
 			for (i = hash(key); this.keys[i] != null; i = (i + 1) % m) {
 				if (this.keys[i].equals(key)){ // && !this.vals.get(i).contains(val)) {
