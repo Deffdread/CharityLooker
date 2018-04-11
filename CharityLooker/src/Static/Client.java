@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * A module containing a clas that acts as a user interface to the program
+ * 
+ * @author Jason Nagy
+ * @version 11.0
+ */
 public class Client {
 	
 	public static void main(String[] args) throws IOException {
@@ -16,10 +23,15 @@ public class Client {
 	private LinearProbing hashBnum;
 	private LinearProbing hashName;
 	private AdjacencyHash hashProg;
-	private AdjacencyHash hashOper;
 	private DataPacker DP;
 	private Charity[] charities;
 
+	/**
+	 * The constructor that sets up the user interface. The constructor loads
+	 * all nessesary data
+	 * 
+	 * @throws IOException If a data file cannot be found
+	 */
 	public Client() throws IOException {
 		Stopwatch stopwatch = new Stopwatch();
 		double begin = stopwatch.elapsedTime();
@@ -31,7 +43,6 @@ public class Client {
 		hashBnum = new LinearProbing(charities.length);
 		hashName = new LinearProbing(charities.length);
 		hashProg = DP.getProg();
-		hashOper = new AdjacencyHash(16);
 
 		for (int i = 0; i < charities.length; i++) {
 			hashBnum.put(charities[i].getBnum(), charities[i]);
@@ -44,11 +55,6 @@ public class Client {
 					prev2 = prev;
 				prev = charities[i].getProg()[j];
 				hashProg.put(charities[i].getProg()[j], charities[i]);
-			}
-
-			String[] opcountry = charities[i].getOland().split(",");
-			for (int k = 0; k < opcountry.length; k++) {
-				hashOper.put(opcountry[k], charities[i]);
 			}
 		}
 		// for (int j = 0; j < hashProg.get("I1").size(); j++) {
@@ -70,15 +76,18 @@ public class Client {
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
 	}
 
-	public void CallUI() throws IOException {
+	/**
+	 * The method that activates the UI and takes control of the console 
+	 */
+	public void CallUI(){
 
 		System.out.println("Welcome to CharityLooker, the best one stop shop for charity data!");
 		String choice = "";
 		Scanner inputStr = new Scanner(System.in);
 
 		Charity current = null;
-		int times = 0;
-		LinkedList<Charity> current2 = null;
+		//int times = 0;
+		//LinkedList<Charity> current2 = null;
 		boolean hold = false;
 		boolean nullCur = false;
 		String mode = "0";
@@ -86,7 +95,7 @@ public class Client {
 			if (!hold) {
 				current = null;
 				System.out.print(
-						"Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n4. Search by operating country\n9. Quit\n>");
+						"Would you like to:\n1. Search by name\n2. Search by business number\n3. Search by charitable cause\n9. Quit\n>");
 				choice = inputStr.nextLine();
 				mode = choice;
 			}
@@ -98,8 +107,6 @@ public class Client {
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashName.get(choice);
 				if (current == null) {
-					System.out.println(
-							"The entered charity was not found. Did you mean one of the following? Please retry using one of these names if so:");
 					nullCur = true;
 				}
 
@@ -108,15 +115,15 @@ public class Client {
 				choice = inputStr.nextLine().toUpperCase();
 				current = hashBnum.get(choice);
 				if (current == null) {
-					System.out.println(
-							"The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
 					nullCur = true;
 				}
 			} else if (mode.equals("3")) {
 				System.out.print("Please enter the program code (refer to documentation):\n>");
 				choice = inputStr.nextLine().toUpperCase();
 				LinkedList<Charity> result = DP.getProg().get(choice);
-
+				
+				result=reduceResults(result,choice);
+				
 				if (result != null) {
 					DepthFirstSearch DFS = new DepthFirstSearch(result);
 					DFS.print();
@@ -132,8 +139,7 @@ public class Client {
 			}
 
 			if (current == null && (mode.equals("1") || mode.equals("2"))) {
-				System.out.println(
-						"The entered charity was not found. Did you mean one of the following? Please retry using one of these buesiness numbers if so:");
+				System.out.println("The entered charity was not found. Did you mean one of the following:");
 
 				String lookFor = mode;
 
@@ -218,6 +224,42 @@ public class Client {
 						} else if (choice.equals("3")) { // 5
 							System.out.println("Ran political campaign: " + current.getServ(5));
 						}
+					} else if (choice.equals("5")) {
+						System.out.println("This charity partakes in:");
+						String[] options = new String[current.getProg().length];
+						for (int i = 0; i < current.getProg().length / 2; i++) {
+							if (!current.getProg(i).equals("")){
+								options[i]=current.getProg(i);
+								System.out.println(current.getProg(i) + ": " + current.getProg(i + 3));
+							}else{
+								options[i]=null;
+							}
+						}
+						System.out.print("Please enter a code to search:\n>");
+						choice = inputStr.nextLine().toUpperCase();
+						
+						boolean found=false;
+						for (int i=0; i<options.length; i++){
+							if (options[i]!=null && options[i].equals(choice)){
+								found=true;
+								break;
+							}
+						}
+						if (found){
+							LinkedList<Charity> result = DP.getProg().get(choice);
+							
+							result=reduceResults(result,choice);
+							
+							if (result != null) {
+								DepthFirstSearch DFS = new DepthFirstSearch(result);
+								DFS.print();
+							} else {
+								System.out.println("Invalid entry, please try again");
+							}
+						}else{
+							System.out.println("Entered in an invalid code, please try again");
+						}
+						
 					}
 
 				} while (!choice.equals("9"));
@@ -228,6 +270,14 @@ public class Client {
 		inputStr.close();
 	}
 
+	/**
+	 * Goes through the charities and compares them to a inputted string, looking
+	 * for similarily named charities
+	 * 
+	 * @param mode The mode of the search (1=name, 2=business number). Affects the threshhold for a match
+	 * @param base The string to compare against
+	 * @param charityNames The names and business numbers of all charities; all seperately indexable
+	 */
 	private static int[][] findSimilarIndex(String mode, String base, String[][] charityNames) {
 		ArrayList<int[]> closeL = new ArrayList<int[]>();
 		Locale language = new Locale("English");
@@ -270,4 +320,18 @@ public class Client {
 			}
 		}
 	}
+	
+	private LinkedList<Charity> reduceResults(LinkedList<Charity> result, String choice){
+		LinkedList<Charity> temp = new LinkedList<Charity>();
+		if (result.size() > 500){
+			for (int i=0; i<500; i++){
+				int toAdd = ThreadLocalRandom.current().nextInt(0,result.size()); //not inclusive
+				temp.add(result.get(toAdd));
+			}
+			result=temp;
+		}
+		
+		return result;
+	}
+	
 }

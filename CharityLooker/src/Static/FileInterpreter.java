@@ -11,18 +11,9 @@ import java.util.List;
  * 
  * @author Jason Nagy, 400055130
  * @since March 04/18
- * @version 1.0
+ * @version 15.0
  */
 public class FileInterpreter {
-	
-	/* EXAMPLE USE
-		String   file = "data/Charity_Identification.csv"; - The file to extract from
-		String[] toExtract = new String[] {"BN", "Country"}; - The columns (headers) you want to extract; use 'listHeaders' to learn what the file contains
-		
-		String[][] data = getDataFromFile(file,toExtract); - The method to extract the chosen headers from the chosen file
-
-		- Then put data into Charity list
-	*/
 	
 	/**
 	 * Method to return extract desired columns from a specified .csv file with the intended use of inserting the data into Charity ADTs
@@ -121,7 +112,6 @@ public class FileInterpreter {
 		
 		for (int i=0; i<find.length; i++){
 			for (int j=0; j<headers.length; j++){
-				//System.out.println(find[i].equals(headers[j])+"|"+find[i]+"|"+headers[j]);
 				if ( find[i].trim().equals(headers[j].trim()) ){
 					index[i]=j;
 					found[i]=true;
@@ -151,9 +141,3 @@ public class FileInterpreter {
 		return(export);
 	}
 }
-
-
-/*if (find[property].compareTo("300")==0){
-	System.out.println(node+"|"+property);
-	System.out.println(export[0].length+"|"+data[0].length+"|"+property);
-}*/

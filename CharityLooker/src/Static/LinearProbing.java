@@ -5,7 +5,7 @@ public class LinearProbing {
 	private int m;
 	private int n;
 	private String[] keys;
-	Charity[] vals;
+	private Charity[] vals;
 
 	public LinearProbing(int m) {
 		this.n = 0;
