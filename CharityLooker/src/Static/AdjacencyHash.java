@@ -1,6 +1,5 @@
 package Static;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -22,9 +21,8 @@ public class AdjacencyHash {
 		 * The constructor that initializes the current size of the hash table, the initial max size of the hash table
 	     * the max amount of keys and values the hash table can hold
 		 * @param m the initial capacity of the hash table
-		 * @throws IOException
 		 */
-		public AdjacencyHash(int m) throws IOException{
+		public AdjacencyHash(int m){
 			this.m = m;
 			this.keys = new String[this.m];
 			this.n = 0;
@@ -55,9 +53,8 @@ public class AdjacencyHash {
 		 * of the corresponding key
 		 * @param key the string that is being hashed
 		 * @param val the charity object that is being inserted into the linked list corresponding to the hash of the key
-		 * @throws IOException
 		 */
-		public void put(String key, Charity val) throws IOException {
+		public void put(String key, Charity val) {
 			if (key == null)
 				return;
 			if (this.n >= this.m / 2)
@@ -79,9 +76,8 @@ public class AdjacencyHash {
 		 * either shrinks the array or grows the size of the hash table based on the size of the user input with
 		 * comparison to the current max size of the hash table
 		 * @param capacity the new max size of the hash table
-		 * @throws IOException
 		 */
-		private void resize(int capacity) throws IOException {
+		private void resize(int capacity) {
 			AdjacencyHash temp = new AdjacencyHash(capacity);
 			for (int i = 0; i < this.m; i++) {
 				if (this.keys[i] != null) {

@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Client {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		Client Experimental = new Client();
 		Experimental.CallUI();
 	}
@@ -32,10 +32,17 @@ public class Client {
 	 * 
 	 * @throws IOException If a data file cannot be found
 	 */
-	public Client() throws IOException {
+	public Client() {
 		Stopwatch stopwatch = new Stopwatch();
 		double begin = stopwatch.elapsedTime();
-		DP = new DataPacker();
+		try{
+			DP = new DataPacker();
+		}catch (IOException e){
+			System.out.println("Error with data file collection. Please check DataPacker");
+			e.printStackTrace();
+			return;
+		}
+		
 		charities = DP.getData();
 
 		Quick.sort(DP.getData(), "bnum");
@@ -57,21 +64,6 @@ public class Client {
 				hashProg.put(charities[i].getProg()[j], charities[i]);
 			}
 		}
-		// for (int j = 0; j < hashProg.get("I1").size(); j++) {
-		// System.out.println(hashProg.get("I1").get(j));
-		// }
-		// for (int j = 0; j < hashOper.get("RU").size(); j++) {
-		// System.out.println(hashOper.get("RU").get(j));
-		// }
-
-		// for (int k=0; k<100; k++) {
-		// String[] opcountry2 = charities[k].getOland().split(",");
-		// for (int j = 0; j < opcountry2.length; j++) {
-		// System.out.println(opcountry2[j]);
-		// }
-		// for (int i=0; i<100; i++)
-		// System.out.println(DP.getData()[i]);*/
-
 		double end = stopwatch.elapsedTime();
 		System.out.println("Loaded in: " + ((end - begin) / 1000000));
 	}
@@ -86,8 +78,6 @@ public class Client {
 		Scanner inputStr = new Scanner(System.in);
 
 		Charity current = null;
-		//int times = 0;
-		//LinkedList<Charity> current2 = null;
 		boolean hold = false;
 		boolean nullCur = false;
 		String mode = "0";
