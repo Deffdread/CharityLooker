@@ -4,13 +4,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * Performs a modified Linear Probing hash table approach 
+ * to put duplicate keys into a linked list in order to handle cases where
+ * duplicate keys occur
+ * 
+ * @author Ryan Schnekenburger
+ * @version 1.0
+ */
 public class AdjacencyHash {
 
 		private int m;
 		private String[] keys;
 		private ArrayList<LinkedList<Charity>> vals;
 		private int n;
-		
+		/**
+		 * The constructor that initializes the current size of the hash table, the initial max size of the hash table
+	     * the max amount of keys and values the hash table can hold
+		 * @param m the initial capacity of the hash table
+		 * @throws IOException
+		 */
 		public AdjacencyHash(int m) throws IOException{
 			this.m = m;
 			this.keys = new String[this.m];
@@ -23,7 +36,12 @@ public class AdjacencyHash {
 				    i++;
 				}
 		}
-
+		
+		/**
+		 * a method to return an index based on the hashcode of an inputed string
+		 * @param key the string that is being hashed
+		 * @return the index where the value corresponding to the string should go
+		 */
 		private int hash(String key) {
 			int x = (key.hashCode() % 0x7fffffff) % this.m;
 			if (x > 0)
@@ -31,7 +49,14 @@ public class AdjacencyHash {
 			else
 				return x*-1;
 		}
-
+		
+		/**
+		 * a method to put a charity object into a linked list at an index corresponding to the value of the hashing 
+		 * of the corresponding key
+		 * @param key the string that is being hashed
+		 * @param val the charity object that is being inserted into the linked list corresponding to the hash of the key
+		 * @throws IOException
+		 */
 		public void put(String key, Charity val) throws IOException {
 			if (key == null)
 				return;
@@ -50,6 +75,12 @@ public class AdjacencyHash {
 			this.n++;
 		}     
 		
+		/**
+		 * either shrinks the array or grows the size of the hash table based on the size of the user input with
+		 * comparison to the current max size of the hash table
+		 * @param capacity the new max size of the hash table
+		 * @throws IOException
+		 */
 		private void resize(int capacity) throws IOException {
 			AdjacencyHash temp = new AdjacencyHash(capacity);
 			for (int i = 0; i < this.m; i++) {
@@ -63,6 +94,11 @@ public class AdjacencyHash {
 			this.m = temp.m;
 		}
 		
+		/**
+		 * Returns the linked list at the position of the hash of the key in the value arraylist
+		 * @param key the corresponding key to the linked list that you want to return
+		 * @return the linked list of the vals array at the hash of the given key
+		 */
 		public LinkedList<Charity> get(String key) {
 			if (key == null)
 				throw new IllegalArgumentException("argument to get() is null");
@@ -74,6 +110,9 @@ public class AdjacencyHash {
 			return null;
 		}
 		
+		/**
+		 * A method to transform the adjacency list into a string output
+		 */
 		public String toString() {
 			String temp = "";
 			for (int i = 0; i < keys.length; i++) {
