@@ -125,7 +125,7 @@ public class LinearProbing {
 	
 	/**
 	 * Returns the value at the position of the hash of the key in the value array
-	 * @param key the corresponding key to the value that you want to retrun
+	 * @param key the corresponding key to the value that you want to return
 	 * @return the value of the vals array at the hash of the given key
 	 */
 	public Charity get(String key) {

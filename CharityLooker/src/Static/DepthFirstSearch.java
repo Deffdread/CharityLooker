@@ -29,8 +29,8 @@ public class DepthFirstSearch {
 		for (int i=1; i<raw.size(); i++){
 			int connections = ThreadLocalRandom.current().nextInt(1,6); //not inclusive
 			for (int t=0; t<connections; t++){
-				int toAdd = ThreadLocalRandom.current().nextInt(0,raw.size()-1);
-				System.out.println(raw.get(i)+"|"+raw.get(toAdd));
+				int toAdd = ThreadLocalRandom.current().nextInt(0,raw.size());
+				//System.out.println(raw.get(i)+"|"+raw.get(toAdd));
 				raw.get(i).addEdge(raw.get(toAdd));
 			}
 		}
@@ -66,6 +66,7 @@ public class DepthFirstSearch {
 				System.out.println(me.getKey());
 				printed++;
 			}
+			//System.out.println(printed);
 			if (printed>=maxPrint)
 				break;
 		}
